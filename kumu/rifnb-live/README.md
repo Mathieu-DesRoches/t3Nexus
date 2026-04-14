@@ -1,3 +1,4 @@
 # RIFNB Kumu Live
 
-This folder hosts the public JSON blueprint consumed by the Kumu `json test` sandbox.
+Stable public JSON payload for the Kumu json test sandbox.
+
