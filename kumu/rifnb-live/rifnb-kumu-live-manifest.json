@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-09T21:46:36.490Z",
+  "generated_at": "2026-04-14T15:31:40.985Z",
   "config_path": "C:\\Users\\User\\Projects\\RIFNB\\config\\kumu-live.config.json",
   "overrides_path": "C:\\Users\\User\\Projects\\RIFNB\\config\\kumu-live-overrides.json",
   "refresh_workbook": true,
-  "public_url": "",
+  "public_url": "https://raw.githubusercontent.com/Mathieu-DesRoches/t3Nexus/rifnb-kumu-live/kumu/rifnb-live/rifnb-kumu-live-blueprint.json",
   "source_workbook": "C:\\Users\\User\\GroupeDesRoches\\Groupe DesRoches documents - Documents\\DDesRoches - sharepoint\\RIFNB\\Données\\Parties prenantes\\kumu_clean_master_v50.xlsx",
   "snapshot_workbook": "C:\\Users\\User\\Projects\\RIFNB\\scripts\\tmp\\kumu_clean_master_v50_snapshot.xlsx",
   "live_import_workbook": "C:\\Users\\User\\Projects\\RIFNB\\scripts\\outputs\\kumu_live_import_preview.xlsx",
@@ -29,7 +29,7 @@
   "output_blueprint": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\rifnb-kumu-live-blueprint.json",
   "output_summary": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\rifnb-kumu-live-summary.json",
   "output_manifest": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\rifnb-kumu-live-manifest.json",
-  "published_blueprint": "C:\\Users\\User\\OneDrive - GroupeDesRoches\\Project Assets\\10 Work\\RIFNB\\assets\\json-dumps\\rifnb-kumu-live-blueprint.json",
-  "published_manifest": "C:\\Users\\User\\OneDrive - GroupeDesRoches\\Project Assets\\10 Work\\RIFNB\\assets\\json-dumps\\rifnb-kumu-live-manifest.json",
-  "published_snapshot": "C:\\Users\\User\\OneDrive - GroupeDesRoches\\Project Assets\\10 Work\\RIFNB\\assets\\json-dumps\\rifnb-kumu-live-blueprint-20260409T184636.json"
+  "published_blueprint": "",
+  "published_manifest": "",
+  "published_snapshot": ""
 }
