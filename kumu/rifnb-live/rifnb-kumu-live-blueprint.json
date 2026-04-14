@@ -1,0 +1,20 @@
+{
+  "elements": [
+    {
+      "id": "el-acadian-peninsula",
+      "label": "Acadian Peninsula",
+      "type": "Geographic anchor",
+      "tags": [
+        "geography",
+        "place",
+        "anchor"
+      ],
+      "description": "Geographic anchor generated from org_master scope/location fields.",
+      "Location": "Acadian Peninsula",
+      "Official name of org / entity": "Acadian Peninsula",
+      "Region / scope of offered services": "Acadian Peninsula",
+      "common name of org": "Acadian Peninsula"
+    }
+  ],
+  "connections": []
+}
