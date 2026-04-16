@@ -20,12 +20,6 @@ import type {
 import { resolveModelSlugForProvider } from "@t3tools/shared/model";
 import { create } from "zustand";
 import {
-  derivePendingApprovals,
-  derivePendingUserInputs,
-  findLatestProposedPlan,
-  hasActionableProposedPlan,
-} from "./session-logic";
-import {
   type ChatMessage,
   type Project,
   type ProposedPlan,
@@ -39,6 +33,7 @@ import {
 import { resolveEnvironmentHttpUrl } from "./environments/runtime";
 import { sanitizeThreadErrorMessage } from "./rpc/transportError";
 import { getThreadFromEnvironmentState } from "./threadDerivation";
+import { deriveSidebarThreadIntent } from "./threadIntent";
 
 export interface EnvironmentState {
   projectIds: ProjectId[];
@@ -247,20 +242,8 @@ function toThreadTurnState(thread: Thread): ThreadTurnState {
   };
 }
 
-function getLatestUserMessageAt(messages: ReadonlyArray<ChatMessage>): string | null {
-  let latestUserMessageAt: string | null = null;
-  for (const message of messages) {
-    if (message.role !== "user") {
-      continue;
-    }
-    if (latestUserMessageAt === null || message.createdAt > latestUserMessageAt) {
-      latestUserMessageAt = message.createdAt;
-    }
-  }
-  return latestUserMessageAt;
-}
-
 function buildSidebarThreadSummary(thread: Thread): SidebarThreadSummary {
+  const intent = deriveSidebarThreadIntent(thread);
   return {
     id: thread.id,
     environmentId: thread.environmentId,
@@ -274,12 +257,7 @@ function buildSidebarThreadSummary(thread: Thread): SidebarThreadSummary {
     latestTurn: thread.latestTurn,
     branch: thread.branch,
     worktreePath: thread.worktreePath,
-    latestUserMessageAt: getLatestUserMessageAt(thread.messages),
-    hasPendingApprovals: derivePendingApprovals(thread.activities).length > 0,
-    hasPendingUserInput: derivePendingUserInputs(thread.activities).length > 0,
-    hasActionableProposedPlan: hasActionableProposedPlan(
-      findLatestProposedPlan(thread.proposedPlans, thread.latestTurn?.turnId ?? null),
-    ),
+    ...intent,
   };
 }
 

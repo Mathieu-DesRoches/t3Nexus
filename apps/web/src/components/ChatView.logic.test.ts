@@ -1,5 +1,5 @@
 import { scopeThreadRef } from "@t3tools/client-runtime";
-import { EnvironmentId, ProjectId, ThreadId, TurnId } from "@t3tools/contracts";
+import { EnvironmentId, MessageId, ProjectId, ThreadId, TurnId } from "@t3tools/contracts";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { type EnvironmentState, useStore } from "../store";
 import { type Thread } from "../types";
@@ -8,6 +8,7 @@ import {
   MAX_HIDDEN_MOUNTED_TERMINAL_THREADS,
   buildExpiredTerminalContextToastCopy,
   createLocalDispatchSnapshot,
+  deriveCompletionTimelineState,
   deriveComposerSendState,
   hasServerAcknowledgedLocalDispatch,
   reconcileMountedTerminalThreadIds,
@@ -78,6 +79,85 @@ describe("buildExpiredTerminalContextToastCopy", () => {
     expect(buildExpiredTerminalContextToastCopy(2, "omitted")).toEqual({
       title: "Expired terminal contexts omitted from message",
       description: "Re-add it if you want that terminal output included.",
+    });
+  });
+});
+
+describe("deriveCompletionTimelineState", () => {
+  it("returns no completion header when the thread has no completion range", () => {
+    expect(
+      deriveCompletionTimelineState({
+        completionSummaryRange: null,
+        timelineEntries: [],
+        latestTurn: null,
+        latestTurnSettled: true,
+      }),
+    ).toEqual({
+      completionSummary: null,
+      completionDividerBeforeEntryId: null,
+    });
+  });
+
+  it("derives the completion summary and divider from settled turn state", () => {
+    const assistantMessageId = MessageId.make("message-1");
+    const completionState = deriveCompletionTimelineState({
+      completionSummaryRange: {
+        startedAt: "2026-03-29T00:00:00.000Z",
+        completedAt: "2026-03-29T00:01:05.000Z",
+      },
+      timelineEntries: [
+        {
+          id: "entry-message-1",
+          kind: "message",
+          createdAt: "2026-03-29T00:01:05.000Z",
+          message: {
+            id: assistantMessageId,
+            role: "assistant",
+            text: "Done",
+            turnId: TurnId.make("turn-1"),
+            createdAt: "2026-03-29T00:01:05.000Z",
+            streaming: false,
+          },
+        },
+      ],
+      latestTurn: {
+        turnId: TurnId.make("turn-1"),
+        state: "completed",
+        requestedAt: "2026-03-29T00:00:00.000Z",
+        startedAt: "2026-03-29T00:00:00.000Z",
+        completedAt: "2026-03-29T00:01:05.000Z",
+        assistantMessageId,
+      },
+      latestTurnSettled: true,
+    });
+
+    expect(completionState).toEqual({
+      completionSummary: "Worked for 1m 5s",
+      completionDividerBeforeEntryId: "entry-message-1",
+    });
+  });
+
+  it("suppresses the divider until the latest turn is settled", () => {
+    expect(
+      deriveCompletionTimelineState({
+        completionSummaryRange: {
+          startedAt: "2026-03-29T00:00:00.000Z",
+          completedAt: "2026-03-29T00:00:05.000Z",
+        },
+        timelineEntries: [],
+        latestTurn: {
+          turnId: TurnId.make("turn-1"),
+          state: "running",
+          requestedAt: "2026-03-29T00:00:00.000Z",
+          startedAt: "2026-03-29T00:00:00.000Z",
+          completedAt: null,
+          assistantMessageId: null,
+        },
+        latestTurnSettled: false,
+      }),
+    ).toEqual({
+      completionSummary: "Worked for 5.0s",
+      completionDividerBeforeEntryId: null,
     });
   });
 });

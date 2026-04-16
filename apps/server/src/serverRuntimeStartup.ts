@@ -26,7 +26,7 @@ import { Keybindings } from "./keybindings";
 import { Open } from "./open";
 import { OrchestrationEngineService } from "./orchestration/Services/OrchestrationEngine";
 import { ProjectionSnapshotQuery } from "./orchestration/Services/ProjectionSnapshotQuery";
-import { OrchestrationReactor } from "./orchestration/Services/OrchestrationReactor";
+import { OrchestrationLifecycle } from "./orchestration/Services/OrchestrationLifecycle";
 import { ServerLifecycleEvents } from "./serverLifecycleEvents";
 import { ServerSettingsService } from "./serverSettings";
 import { ServerEnvironment } from "./environment/Services/ServerEnvironment";
@@ -274,7 +274,7 @@ const runStartupPhase = <A, E, R>(phase: string, effect: Effect.Effect<A, E, R>)
 const makeServerRuntimeStartup = Effect.gen(function* () {
   const serverConfig = yield* ServerConfig;
   const keybindings = yield* Keybindings;
-  const orchestrationReactor = yield* OrchestrationReactor;
+  const orchestrationLifecycle = yield* OrchestrationLifecycle;
   const lifecycleEvents = yield* ServerLifecycleEvents;
   const serverSettings = yield* ServerSettingsService;
   const serverEnvironment = yield* ServerEnvironment;
@@ -316,10 +316,10 @@ const makeServerRuntimeStartup = Effect.gen(function* () {
       ),
     );
 
-    yield* Effect.logDebug("startup phase: starting orchestration reactors");
+    yield* Effect.logDebug("startup phase: starting orchestration lifecycle workers");
     yield* runStartupPhase(
-      "reactors.start",
-      orchestrationReactor.start().pipe(Scope.provide(reactorScope)),
+      "lifecycle.start",
+      orchestrationLifecycle.start().pipe(Scope.provide(reactorScope)),
     );
 
     yield* Effect.logDebug("startup phase: preparing welcome payload");

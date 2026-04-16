@@ -13,6 +13,11 @@ import { type ComposerImageAttachment, type DraftThreadState } from "../composer
 import { Schema } from "effect";
 import { selectThreadByRef, useStore } from "../store";
 import {
+  deriveCompletionDividerBeforeEntryId,
+  formatElapsed,
+  type TimelineEntry,
+} from "../session-logic";
+import {
   filterTerminalContextsWithText,
   stripInlineTerminalContextPlaceholders,
   type TerminalContextDraft,
@@ -342,4 +347,32 @@ export function hasServerAcknowledgedLocalDispatch(input: {
     input.localDispatch.sessionOrchestrationStatus !== (session?.orchestrationStatus ?? null) ||
     input.localDispatch.sessionUpdatedAt !== (session?.updatedAt ?? null)
   );
+}
+
+export function deriveCompletionTimelineState(input: {
+  completionSummaryRange: { startedAt: string; completedAt: string } | null;
+  timelineEntries: ReadonlyArray<TimelineEntry>;
+  latestTurn: Thread["latestTurn"] | null;
+  latestTurnSettled: boolean;
+}): {
+  completionSummary: string | null;
+  completionDividerBeforeEntryId: string | null;
+} {
+  const completionSummary = input.completionSummaryRange
+    ? (() => {
+        const elapsed = formatElapsed(
+          input.completionSummaryRange.startedAt,
+          input.completionSummaryRange.completedAt,
+        );
+        return elapsed ? `Worked for ${elapsed}` : null;
+      })()
+    : null;
+
+  return {
+    completionSummary,
+    completionDividerBeforeEntryId:
+      input.latestTurnSettled && completionSummary
+        ? deriveCompletionDividerBeforeEntryId(input.timelineEntries, input.latestTurn)
+        : null,
+  };
 }

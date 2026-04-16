@@ -901,28 +901,14 @@ export class CodexAppServerManager extends EventEmitter<CodexAppServerManagerEve
       return;
     }
 
-    context.stopping = true;
-
-    for (const pending of context.pending.values()) {
-      clearTimeout(pending.timeout);
-      pending.reject(new Error("Session stopped before request completed."));
-    }
-    context.pending.clear();
-    context.pendingApprovals.clear();
-    context.pendingUserInputs.clear();
-
-    context.output.close();
-
-    if (!context.child.killed) {
-      killChildTree(context.child);
-    }
-
-    this.updateSession(context, {
-      status: "closed",
-      activeTurnId: undefined,
+    this.finalizeSession(context, {
+      method: "session/closed",
+      message: "Session stopped",
+      pendingRequestMessage: "Session stopped before request completed.",
+      markStopping: true,
+      terminateChild: true,
+      lastError: context.session.lastError,
     });
-    this.emitLifecycleEvent(context, "session/closed", "Session stopped");
-    this.sessions.delete(threadId);
   }
 
   listSessions(): ProviderSession[] {
@@ -987,14 +973,52 @@ export class CodexAppServerManager extends EventEmitter<CodexAppServerManagerEve
       }
 
       const message = `codex app-server exited (code=${code ?? "null"}, signal=${signal ?? "null"}).`;
-      this.updateSession(context, {
-        status: "closed",
-        activeTurnId: undefined,
+      this.finalizeSession(context, {
+        method: "session/exited",
+        message,
+        pendingRequestMessage: "Session exited before request completed.",
+        terminateChild: false,
         lastError: code === 0 ? context.session.lastError : message,
       });
-      this.emitLifecycleEvent(context, "session/exited", message);
-      this.sessions.delete(context.session.threadId);
     });
+  }
+
+  private finalizeSession(
+    context: CodexSessionContext,
+    input: {
+      readonly method: string;
+      readonly message: string;
+      readonly pendingRequestMessage: string;
+      readonly terminateChild: boolean;
+      readonly lastError: string | null | undefined;
+      readonly markStopping?: boolean;
+    },
+  ): void {
+    if (input.markStopping) {
+      context.stopping = true;
+    }
+
+    for (const pending of context.pending.values()) {
+      clearTimeout(pending.timeout);
+      pending.reject(new Error(input.pendingRequestMessage));
+    }
+    context.pending.clear();
+    context.pendingApprovals.clear();
+    context.pendingUserInputs.clear();
+
+    context.output.close();
+
+    if (input.terminateChild && !context.child.killed) {
+      killChildTree(context.child);
+    }
+
+    this.updateSession(context, {
+      status: "closed",
+      activeTurnId: undefined,
+      ...(input.lastError !== null ? { lastError: input.lastError } : {}),
+    });
+    this.emitLifecycleEvent(context, input.method, input.message);
+    this.sessions.delete(context.session.threadId);
   }
 
   private handleStdoutLine(context: CodexSessionContext, line: string): void {

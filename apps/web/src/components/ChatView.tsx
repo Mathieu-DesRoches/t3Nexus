@@ -14,7 +14,6 @@ import {
   type ThreadId,
   type TurnId,
   type KeybindingCommand,
-  OrchestrationThreadActivity,
   ProviderInteractionMode,
   RuntimeMode,
   TerminalOpenInput,
@@ -28,7 +27,16 @@ import {
 import { applyClaudePromptEffortPrefix } from "@t3tools/shared/model";
 import { projectScriptCwd, projectScriptRuntimeEnv } from "@t3tools/shared/projectScripts";
 import { truncate } from "@t3tools/shared/String";
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import {
+  memo,
+  useCallback,
+  useEffect,
+  useEffectEvent,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import { useShallow } from "zustand/react/shallow";
 import { useGitStatus } from "~/lib/gitStatusState";
@@ -41,22 +49,7 @@ import {
   collapseExpandedComposerCursor,
   parseStandaloneComposerSlashCommand,
 } from "../composer-logic";
-import {
-  deriveCompletionDividerBeforeEntryId,
-  derivePendingApprovals,
-  derivePendingUserInputs,
-  derivePhase,
-  deriveTimelineEntries,
-  deriveActiveWorkStartedAt,
-  deriveActivePlanState,
-  findSidebarProposedPlan,
-  findLatestProposedPlan,
-  deriveWorkLogEntries,
-  hasActionableProposedPlan,
-  hasToolActivityForTurn,
-  isLatestTurnSettled,
-  formatElapsed,
-} from "../session-logic";
+import { deriveTimelineEntries } from "../session-logic";
 import { isScrollContainerNearBottom } from "../chat-scroll";
 import {
   buildPendingUserInputAnswers,
@@ -72,6 +65,7 @@ import {
 } from "../store";
 import { createProjectSelectorByRef, createThreadSelectorByRef } from "../storeSelectors";
 import { useUiStateStore } from "../uiStateStore";
+import { deriveThreadIntent, hasUnseenCompletion } from "../threadIntent";
 import {
   buildPlanImplementationThreadTitle,
   buildPlanImplementationPrompt,
@@ -146,6 +140,7 @@ import {
   collectUserMessageBlobPreviewUrls,
   createLocalDispatchSnapshot,
   deriveComposerSendState,
+  deriveCompletionTimelineState,
   hasServerAcknowledgedLocalDispatch,
   LAST_INVOKED_SCRIPT_BY_PROJECT_KEY,
   LastInvokedScriptByProjectSchema,
@@ -171,7 +166,6 @@ import { sanitizeThreadErrorMessage } from "~/rpc/transportError";
 
 const IMAGE_ONLY_BOOTSTRAP_PROMPT =
   "[User attached one or more images without additional text. Respond using the conversation context and the attached image(s).]";
-const EMPTY_ACTIVITIES: OrchestrationThreadActivity[] = [];
 const EMPTY_PROPOSED_PLANS: Thread["proposedPlans"] = [];
 const EMPTY_PROVIDERS: ServerProvider[] = [];
 const EMPTY_CHANGED_FILES_EXPANDED_BY_TURN_ID: Record<string, boolean> = {};
@@ -820,6 +814,17 @@ export default function ChatView(props: ChatViewProps) {
       return threadIds;
     }, [activeLatestTurn?.sourceProposedPlan?.threadId, activeThread?.id]),
   );
+  const threadIntentBase = useMemo(
+    () =>
+      activeThread
+        ? deriveThreadIntent({
+            thread: activeThread,
+            threadCatalog: threadPlanCatalog,
+          })
+        : null,
+    [activeThread, threadPlanCatalog],
+  );
+  const latestTurnSettled = threadIntentBase?.latestTurnSettled ?? false;
   useEffect(() => {
     setMountedTerminalThreadKeys((currentThreadIds) => {
       const nextThreadIds = reconcileMountedTerminalThreadIds({
@@ -835,7 +840,6 @@ export default function ChatView(props: ChatViewProps) {
         : nextThreadIds;
     });
   }, [activeThreadKey, existingOpenTerminalThreadKeys, terminalState.terminalOpen]);
-  const latestTurnSettled = isLatestTurnSettled(activeLatestTurn, activeThread?.session ?? null);
   const activeProjectRef = activeThread
     ? scopeProjectRef(activeThread.environmentId, activeThread.projectId)
     : null;
@@ -1008,15 +1012,18 @@ export default function ChatView(props: ChatViewProps) {
   useEffect(() => {
     if (!serverThread?.id) return;
     if (!latestTurnSettled) return;
-    if (!activeLatestTurn?.completedAt) return;
-    const turnCompletedAt = Date.parse(activeLatestTurn.completedAt);
-    if (Number.isNaN(turnCompletedAt)) return;
-    const lastVisitedAt = activeThreadLastVisitedAt ? Date.parse(activeThreadLastVisitedAt) : NaN;
-    if (!Number.isNaN(lastVisitedAt) && lastVisitedAt >= turnCompletedAt) return;
+    if (
+      !hasUnseenCompletion({
+        latestTurn: activeLatestTurn,
+        lastVisitedAt: activeThreadLastVisitedAt,
+      })
+    ) {
+      return;
+    }
 
     markThreadVisited(scopedThreadKey(scopeThreadRef(serverThread.environmentId, serverThread.id)));
   }, [
-    activeLatestTurn?.completedAt,
+    activeLatestTurn,
     activeThreadLastVisitedAt,
     latestTurnSettled,
     markThreadVisited,
@@ -1049,25 +1056,46 @@ export default function ChatView(props: ChatViewProps) {
     selectedProviderByThreadId ?? threadProvider ?? "codex",
   );
   const selectedProvider: ProviderKind = lockedProvider ?? unlockedSelectedProvider;
-  const phase = derivePhase(activeThread?.session ?? null);
-  const threadActivities = activeThread?.activities ?? EMPTY_ACTIVITIES;
-  const workLogEntries = useMemo(
-    () => deriveWorkLogEntries(threadActivities, activeLatestTurn?.turnId ?? undefined),
-    [activeLatestTurn?.turnId, threadActivities],
-  );
-  const latestTurnHasToolActivity = useMemo(
-    () => hasToolActivityForTurn(threadActivities, activeLatestTurn?.turnId),
-    [activeLatestTurn?.turnId, threadActivities],
+  const phase = threadIntentBase?.phase ?? "disconnected";
+  const activePendingApprovalBase = threadIntentBase?.activePendingApproval ?? null;
+  const activePendingUserInputBase = threadIntentBase?.activePendingUserInput ?? null;
+  const {
+    beginLocalDispatch,
+    resetLocalDispatch,
+    localDispatchStartedAt,
+    isPreparingWorktree,
+    isSendBusy,
+  } = useLocalDispatchState({
+    activeThread,
+    activeLatestTurn,
+    phase,
+    activePendingApproval: activePendingApprovalBase?.requestId ?? null,
+    activePendingUserInput: activePendingUserInputBase?.requestId ?? null,
+    threadError: activeThread?.error,
+  });
+  const threadIntent = useMemo(
+    () =>
+      activeThread
+        ? deriveThreadIntent({
+            thread: activeThread,
+            threadCatalog: threadPlanCatalog,
+            localDispatchStartedAt,
+          })
+        : null,
+    [activeThread, localDispatchStartedAt, threadPlanCatalog],
   );
   const pendingApprovals = useMemo(
-    () => derivePendingApprovals(threadActivities),
-    [threadActivities],
+    () => [...(threadIntentBase?.pendingApprovals ?? [])],
+    [threadIntentBase?.pendingApprovals],
   );
   const pendingUserInputs = useMemo(
-    () => derivePendingUserInputs(threadActivities),
-    [threadActivities],
+    () => [...(threadIntentBase?.pendingUserInputs ?? [])],
+    [threadIntentBase?.pendingUserInputs],
   );
-  const activePendingUserInput = pendingUserInputs[0] ?? null;
+  const activePendingApproval =
+    threadIntentBase?.activePendingApproval ?? activePendingApprovalBase;
+  const activePendingUserInput =
+    threadIntentBase?.activePendingUserInput ?? activePendingUserInputBase;
   const activePendingDraftAnswers = useMemo(
     () =>
       activePendingUserInput
@@ -1100,56 +1128,17 @@ export default function ChatView(props: ChatViewProps) {
   const activePendingIsResponding = activePendingUserInput
     ? respondingUserInputRequestIds.includes(activePendingUserInput.requestId)
     : false;
-  const activeProposedPlan = useMemo(() => {
-    if (!latestTurnSettled) {
-      return null;
-    }
-    return findLatestProposedPlan(
-      activeThread?.proposedPlans ?? [],
-      activeLatestTurn?.turnId ?? null,
-    );
-  }, [activeLatestTurn?.turnId, activeThread?.proposedPlans, latestTurnSettled]);
-  const sidebarProposedPlan = useMemo(
-    () =>
-      findSidebarProposedPlan({
-        threads: threadPlanCatalog,
-        latestTurn: activeLatestTurn,
-        latestTurnSettled,
-        threadId: activeThread?.id ?? null,
-      }),
-    [activeLatestTurn, activeThread?.id, latestTurnSettled, threadPlanCatalog],
+  const workLogEntries = useMemo(
+    () => [...(threadIntentBase?.workLogEntries ?? [])],
+    [threadIntentBase?.workLogEntries],
   );
-  const activePlan = useMemo(
-    () => deriveActivePlanState(threadActivities, activeLatestTurn?.turnId ?? undefined),
-    [activeLatestTurn?.turnId, threadActivities],
-  );
-  const showPlanFollowUpPrompt =
-    pendingUserInputs.length === 0 &&
-    interactionMode === "plan" &&
-    latestTurnSettled &&
-    hasActionableProposedPlan(activeProposedPlan);
-  const activePendingApproval = pendingApprovals[0] ?? null;
-  const {
-    beginLocalDispatch,
-    resetLocalDispatch,
-    localDispatchStartedAt,
-    isPreparingWorktree,
-    isSendBusy,
-  } = useLocalDispatchState({
-    activeThread,
-    activeLatestTurn,
-    phase,
-    activePendingApproval: activePendingApproval?.requestId ?? null,
-    activePendingUserInput: activePendingUserInput?.requestId ?? null,
-    threadError: activeThread?.error,
-  });
+  const activePlan = threadIntentBase?.activePlan ?? null;
+  const activeProposedPlan = threadIntentBase?.activeProposedPlan ?? null;
+  const sidebarProposedPlan = threadIntentBase?.sidebarProposedPlan ?? null;
+  const showPlanFollowUpPrompt = threadIntentBase?.hasPlanReadyPrompt ?? false;
   const isWorking = phase === "running" || isSendBusy || isConnecting || isRevertingCheckpoint;
   const nowIso = new Date(nowTick).toISOString();
-  const activeWorkStartedAt = deriveActiveWorkStartedAt(
-    activeLatestTurn,
-    activeThread?.session ?? null,
-    localDispatchStartedAt,
-  );
+  const activeWorkStartedAt = threadIntent?.activeWorkStartedAt ?? null;
   useEffect(() => {
     attachmentPreviewHandoffByMessageIdRef.current = attachmentPreviewHandoffByMessageId;
   }, [attachmentPreviewHandoffByMessageId]);
@@ -1392,25 +1381,21 @@ export default function ChatView(props: ChatViewProps) {
     return byUserMessageId;
   }, [inferredCheckpointTurnCountByTurnId, timelineEntries, turnDiffSummaryByAssistantMessageId]);
 
-  const completionSummary = useMemo(() => {
-    if (!latestTurnSettled) return null;
-    if (!activeLatestTurn?.startedAt) return null;
-    if (!activeLatestTurn.completedAt) return null;
-    if (!latestTurnHasToolActivity) return null;
-
-    const elapsed = formatElapsed(activeLatestTurn.startedAt, activeLatestTurn.completedAt);
-    return elapsed ? `Worked for ${elapsed}` : null;
-  }, [
-    activeLatestTurn?.completedAt,
-    activeLatestTurn?.startedAt,
-    latestTurnHasToolActivity,
-    latestTurnSettled,
-  ]);
-  const completionDividerBeforeEntryId = useMemo(() => {
-    if (!latestTurnSettled) return null;
-    if (!completionSummary) return null;
-    return deriveCompletionDividerBeforeEntryId(timelineEntries, activeLatestTurn);
-  }, [activeLatestTurn, completionSummary, latestTurnSettled, timelineEntries]);
+  const { completionSummary, completionDividerBeforeEntryId } = useMemo(
+    () =>
+      deriveCompletionTimelineState({
+        completionSummaryRange: threadIntentBase?.completionSummaryRange ?? null,
+        timelineEntries,
+        latestTurn: activeLatestTurn,
+        latestTurnSettled,
+      }),
+    [
+      activeLatestTurn,
+      latestTurnSettled,
+      threadIntentBase?.completionSummaryRange,
+      timelineEntries,
+    ],
+  );
   const gitCwd = activeProject
     ? projectScriptCwd({
         project: { cwd: activeProject.cwd },
@@ -1552,17 +1537,27 @@ export default function ChatView(props: ChatViewProps) {
     [draftId, routeThreadRef, serverThread, setStoreThreadError],
   );
 
-  const focusComposer = useCallback(() => {
+  const focusComposer = useEffectEvent(() => {
     composerRef.current?.focusAtEnd();
-  }, []);
+  });
   const scheduleComposerFocus = useCallback(() => {
     window.requestAnimationFrame(() => {
       focusComposer();
     });
-  }, [focusComposer]);
-  const addTerminalContextToDraft = useCallback((selection: TerminalContextSelection) => {
-    composerRef.current?.addTerminalContext(selection);
   }, []);
+  const addTerminalContextToDraft = useEffectEvent((selection: TerminalContextSelection) => {
+    composerRef.current?.addTerminalContext(selection);
+  });
+  const resetComposerCursorState = useEffectEvent((cursor: number) => {
+    composerRef.current?.resetCursorState({ cursor });
+  });
+  const readComposerSnapshot = useEffectEvent(() => composerRef.current?.readSnapshot() ?? null);
+  const focusComposerAt = useEffectEvent((cursor: number) => {
+    composerRef.current?.focusAt(cursor);
+  });
+  const readComposerSendContext = useEffectEvent(
+    () => composerRef.current?.getSendContext() ?? null,
+  );
   const setTerminalOpen = useCallback(
     (open: boolean) => {
       if (!activeThreadRef) return;
@@ -2154,7 +2149,7 @@ export default function ChatView(props: ChatViewProps) {
     return () => {
       window.cancelAnimationFrame(frame);
     };
-  }, [activeThread?.id, focusComposer, terminalState.terminalOpen]);
+  }, [activeThread?.id, terminalState.terminalOpen]);
 
   useEffect(() => {
     if (!activeThread?.id) return;
@@ -2320,7 +2315,7 @@ export default function ChatView(props: ChatViewProps) {
     }
 
     terminalOpenByThreadRef.current[activeThreadKey] = current;
-  }, [activeThreadKey, focusComposer, terminalState.terminalOpen]);
+  }, [activeThreadKey, terminalState.terminalOpen]);
 
   useEffect(() => {
     const handler = (event: globalThis.KeyboardEvent) => {
@@ -2853,7 +2848,7 @@ export default function ChatView(props: ChatViewProps) {
         };
       });
       promptRef.current = "";
-      composerRef.current?.resetCursorState({ cursor: 0 });
+      resetComposerCursorState(0);
     },
     [activePendingProgress?.activeQuestion, activePendingUserInput],
   );
@@ -2880,13 +2875,13 @@ export default function ChatView(props: ChatViewProps) {
           ),
         },
       }));
-      const snapshot = composerRef.current?.readSnapshot();
+      const snapshot = readComposerSnapshot();
       if (
         snapshot?.value !== value ||
         snapshot.cursor !== nextCursor ||
         snapshot.expandedCursor !== expandedCursor
       ) {
-        composerRef.current?.focusAt(nextCursor);
+        focusComposerAt(nextCursor);
       }
     },
     [activePendingUserInput],
@@ -2943,7 +2938,7 @@ export default function ChatView(props: ChatViewProps) {
         return;
       }
 
-      const sendCtx = composerRef.current?.getSendContext();
+      const sendCtx = readComposerSendContext();
       if (!sendCtx) {
         return;
       }
@@ -3074,7 +3069,7 @@ export default function ChatView(props: ChatViewProps) {
       return;
     }
 
-    const sendCtx = composerRef.current?.getSendContext();
+    const sendCtx = readComposerSendContext();
     if (!sendCtx) {
       return;
     }

@@ -631,6 +631,45 @@ routing.layer("ProviderServiceLive routing", (it) => {
     }),
   );
 
+  it.effect(
+    "removes stale persisted bindings on stopSession without recovering the adapter session",
+    () =>
+      Effect.gen(function* () {
+        const provider = yield* ProviderService;
+
+        const initial = yield* provider.startSession(asThreadId("thread-stale-stop"), {
+          provider: "codex",
+          threadId: asThreadId("thread-stale-stop"),
+          cwd: "/tmp/project-stop",
+          runtimeMode: "full-access",
+        });
+
+        yield* routing.codex.stopSession(initial.threadId);
+        routing.codex.startSession.mockClear();
+        routing.codex.stopSession.mockClear();
+
+        yield* provider.stopSession({ threadId: initial.threadId });
+
+        assert.equal(routing.codex.startSession.mock.calls.length, 0);
+        assert.equal(routing.codex.stopSession.mock.calls.length, 0);
+
+        const sendAfterStop = yield* Effect.result(
+          provider.sendTurn({
+            threadId: initial.threadId,
+            input: "after-stale-stop",
+            attachments: [],
+          }),
+        );
+        assertFailure(
+          sendAfterStop,
+          new ProviderValidationError({
+            operation: "ProviderService.sendTurn",
+            issue: `Cannot route thread '${initial.threadId}' because no persisted provider binding exists.`,
+          }),
+        );
+      }),
+  );
+
   it.effect("routes explicit claudeAgent provider session starts to the claude adapter", () =>
     Effect.gen(function* () {
       const provider = yield* ProviderService;

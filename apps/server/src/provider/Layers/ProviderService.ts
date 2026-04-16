@@ -141,6 +141,140 @@ function readPersistedCwd(
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
+const makeProviderSessionRouting = (input: {
+  readonly registry: typeof ProviderAdapterRegistry.Service;
+  readonly directory: typeof ProviderSessionDirectory.Service;
+  readonly analytics: typeof AnalyticsService.Service;
+}) => {
+  const upsertSessionBinding = (
+    session: ProviderSession,
+    threadId: ThreadId,
+    extra?: {
+      readonly modelSelection?: unknown;
+      readonly lastRuntimeEvent?: string;
+      readonly lastRuntimeEventAt?: string;
+    },
+  ) =>
+    input.directory.upsert({
+      threadId,
+      provider: session.provider,
+      runtimeMode: session.runtimeMode,
+      status: toRuntimeStatus(session),
+      ...(session.resumeCursor !== undefined ? { resumeCursor: session.resumeCursor } : {}),
+      runtimePayload: toRuntimePayloadFromSession(session, extra),
+    });
+
+  const recoverSessionForThread = Effect.fn("recoverSessionForThread")(function* (inputParams: {
+    readonly binding: ProviderRuntimeBinding;
+    readonly operation: string;
+  }) {
+    yield* Effect.annotateCurrentSpan({
+      "provider.operation": "recover-session",
+      "provider.kind": inputParams.binding.provider,
+      "provider.thread_id": inputParams.binding.threadId,
+    });
+    return yield* Effect.gen(function* () {
+      const adapter = yield* input.registry.getByProvider(inputParams.binding.provider);
+      const hasResumeCursor =
+        inputParams.binding.resumeCursor !== null && inputParams.binding.resumeCursor !== undefined;
+      const hasActiveSession = yield* adapter.hasSession(inputParams.binding.threadId);
+      if (hasActiveSession) {
+        const activeSessions = yield* adapter.listSessions();
+        const existing = activeSessions.find(
+          (session) => session.threadId === inputParams.binding.threadId,
+        );
+        if (existing) {
+          yield* upsertSessionBinding(existing, inputParams.binding.threadId);
+          yield* input.analytics.record("provider.session.recovered", {
+            provider: existing.provider,
+            strategy: "adopt-existing",
+            hasResumeCursor: existing.resumeCursor !== undefined,
+          });
+          return { adapter, session: existing } as const;
+        }
+      }
+
+      if (!hasResumeCursor) {
+        return yield* toValidationError(
+          inputParams.operation,
+          `Cannot recover thread '${inputParams.binding.threadId}' because no provider resume state is persisted.`,
+        );
+      }
+
+      const persistedCwd = readPersistedCwd(inputParams.binding.runtimePayload);
+      const persistedModelSelection = readPersistedModelSelection(
+        inputParams.binding.runtimePayload,
+      );
+
+      const resumed = yield* adapter.startSession({
+        threadId: inputParams.binding.threadId,
+        provider: inputParams.binding.provider,
+        ...(persistedCwd ? { cwd: persistedCwd } : {}),
+        ...(persistedModelSelection ? { modelSelection: persistedModelSelection } : {}),
+        ...(hasResumeCursor ? { resumeCursor: inputParams.binding.resumeCursor } : {}),
+        runtimeMode: inputParams.binding.runtimeMode ?? "full-access",
+      });
+      if (resumed.provider !== adapter.provider) {
+        return yield* toValidationError(
+          inputParams.operation,
+          `Adapter/provider mismatch while recovering thread '${inputParams.binding.threadId}'. Expected '${adapter.provider}', received '${resumed.provider}'.`,
+        );
+      }
+
+      yield* upsertSessionBinding(resumed, inputParams.binding.threadId);
+      yield* input.analytics.record("provider.session.recovered", {
+        provider: resumed.provider,
+        strategy: "resume-thread",
+        hasResumeCursor: resumed.resumeCursor !== undefined,
+      });
+      return { adapter, session: resumed } as const;
+    }).pipe(
+      withMetrics({
+        counter: providerSessionsTotal,
+        attributes: providerMetricAttributes(inputParams.binding.provider, {
+          operation: "recover",
+        }),
+      }),
+    );
+  });
+
+  const resolveRoutableSession = Effect.fn("resolveRoutableSession")(function* (inputParams: {
+    readonly threadId: ThreadId;
+    readonly operation: string;
+    readonly allowRecovery: boolean;
+  }) {
+    const bindingOption = yield* input.directory.getBinding(inputParams.threadId);
+    const binding = Option.getOrUndefined(bindingOption);
+    if (!binding) {
+      return yield* toValidationError(
+        inputParams.operation,
+        `Cannot route thread '${inputParams.threadId}' because no persisted provider binding exists.`,
+      );
+    }
+    const adapter = yield* input.registry.getByProvider(binding.provider);
+
+    const hasRequestedSession = yield* adapter.hasSession(inputParams.threadId);
+    if (hasRequestedSession) {
+      return { adapter, threadId: inputParams.threadId, isActive: true } as const;
+    }
+
+    if (!inputParams.allowRecovery) {
+      return { adapter, threadId: inputParams.threadId, isActive: false } as const;
+    }
+
+    const recovered = yield* recoverSessionForThread({
+      binding,
+      operation: inputParams.operation,
+    });
+    return { adapter: recovered.adapter, threadId: inputParams.threadId, isActive: true } as const;
+  });
+
+  return {
+    upsertSessionBinding,
+    resolveRoutableSession,
+  };
+};
+
 const makeProviderService = Effect.fn("makeProviderService")(function* (
   options?: ProviderServiceLiveOptions,
 ) {
@@ -157,6 +291,11 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
   const registry = yield* ProviderAdapterRegistry;
   const directory = yield* ProviderSessionDirectory;
   const runtimeEventPubSub = yield* PubSub.unbounded<ProviderRuntimeEvent>();
+  const sessionRouting = makeProviderSessionRouting({
+    registry,
+    directory,
+    analytics,
+  });
 
   const publishRuntimeEvent = (event: ProviderRuntimeEvent): Effect.Effect<void> =>
     Effect.succeed(event).pipe(
@@ -166,24 +305,6 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
       Effect.flatMap((canonicalEvent) => PubSub.publish(runtimeEventPubSub, canonicalEvent)),
       Effect.asVoid,
     );
-
-  const upsertSessionBinding = (
-    session: ProviderSession,
-    threadId: ThreadId,
-    extra?: {
-      readonly modelSelection?: unknown;
-      readonly lastRuntimeEvent?: string;
-      readonly lastRuntimeEventAt?: string;
-    },
-  ) =>
-    directory.upsert({
-      threadId,
-      provider: session.provider,
-      runtimeMode: session.runtimeMode,
-      status: toRuntimeStatus(session),
-      ...(session.resumeCursor !== undefined ? { resumeCursor: session.resumeCursor } : {}),
-      runtimePayload: toRuntimePayloadFromSession(session, extra),
-    });
 
   const providers = yield* registry.listProviders();
   const adapters = yield* Effect.forEach(providers, (provider) => registry.getByProvider(provider));
@@ -196,106 +317,6 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
   yield* Effect.forEach(adapters, (adapter) =>
     Stream.runForEach(adapter.streamEvents, processRuntimeEvent).pipe(Effect.forkScoped),
   ).pipe(Effect.asVoid);
-
-  const recoverSessionForThread = Effect.fn("recoverSessionForThread")(function* (input: {
-    readonly binding: ProviderRuntimeBinding;
-    readonly operation: string;
-  }) {
-    yield* Effect.annotateCurrentSpan({
-      "provider.operation": "recover-session",
-      "provider.kind": input.binding.provider,
-      "provider.thread_id": input.binding.threadId,
-    });
-    return yield* Effect.gen(function* () {
-      const adapter = yield* registry.getByProvider(input.binding.provider);
-      const hasResumeCursor =
-        input.binding.resumeCursor !== null && input.binding.resumeCursor !== undefined;
-      const hasActiveSession = yield* adapter.hasSession(input.binding.threadId);
-      if (hasActiveSession) {
-        const activeSessions = yield* adapter.listSessions();
-        const existing = activeSessions.find(
-          (session) => session.threadId === input.binding.threadId,
-        );
-        if (existing) {
-          yield* upsertSessionBinding(existing, input.binding.threadId);
-          yield* analytics.record("provider.session.recovered", {
-            provider: existing.provider,
-            strategy: "adopt-existing",
-            hasResumeCursor: existing.resumeCursor !== undefined,
-          });
-          return { adapter, session: existing } as const;
-        }
-      }
-
-      if (!hasResumeCursor) {
-        return yield* toValidationError(
-          input.operation,
-          `Cannot recover thread '${input.binding.threadId}' because no provider resume state is persisted.`,
-        );
-      }
-
-      const persistedCwd = readPersistedCwd(input.binding.runtimePayload);
-      const persistedModelSelection = readPersistedModelSelection(input.binding.runtimePayload);
-
-      const resumed = yield* adapter.startSession({
-        threadId: input.binding.threadId,
-        provider: input.binding.provider,
-        ...(persistedCwd ? { cwd: persistedCwd } : {}),
-        ...(persistedModelSelection ? { modelSelection: persistedModelSelection } : {}),
-        ...(hasResumeCursor ? { resumeCursor: input.binding.resumeCursor } : {}),
-        runtimeMode: input.binding.runtimeMode ?? "full-access",
-      });
-      if (resumed.provider !== adapter.provider) {
-        return yield* toValidationError(
-          input.operation,
-          `Adapter/provider mismatch while recovering thread '${input.binding.threadId}'. Expected '${adapter.provider}', received '${resumed.provider}'.`,
-        );
-      }
-
-      yield* upsertSessionBinding(resumed, input.binding.threadId);
-      yield* analytics.record("provider.session.recovered", {
-        provider: resumed.provider,
-        strategy: "resume-thread",
-        hasResumeCursor: resumed.resumeCursor !== undefined,
-      });
-      return { adapter, session: resumed } as const;
-    }).pipe(
-      withMetrics({
-        counter: providerSessionsTotal,
-        attributes: providerMetricAttributes(input.binding.provider, {
-          operation: "recover",
-        }),
-      }),
-    );
-  });
-
-  const resolveRoutableSession = Effect.fn("resolveRoutableSession")(function* (input: {
-    readonly threadId: ThreadId;
-    readonly operation: string;
-    readonly allowRecovery: boolean;
-  }) {
-    const bindingOption = yield* directory.getBinding(input.threadId);
-    const binding = Option.getOrUndefined(bindingOption);
-    if (!binding) {
-      return yield* toValidationError(
-        input.operation,
-        `Cannot route thread '${input.threadId}' because no persisted provider binding exists.`,
-      );
-    }
-    const adapter = yield* registry.getByProvider(binding.provider);
-
-    const hasRequestedSession = yield* adapter.hasSession(input.threadId);
-    if (hasRequestedSession) {
-      return { adapter, threadId: input.threadId, isActive: true } as const;
-    }
-
-    if (!input.allowRecovery) {
-      return { adapter, threadId: input.threadId, isActive: false } as const;
-    }
-
-    const recovered = yield* recoverSessionForThread({ binding, operation: input.operation });
-    return { adapter: recovered.adapter, threadId: input.threadId, isActive: true } as const;
-  });
 
   const startSession: ProviderServiceShape["startSession"] = Effect.fn("startSession")(
     function* (threadId, rawInput) {
@@ -351,7 +372,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
           );
         }
 
-        yield* upsertSessionBinding(session, threadId, {
+        yield* sessionRouting.upsertSessionBinding(session, threadId, {
           modelSelection: input.modelSelection,
         });
         yield* analytics.record("provider.session.started", {
@@ -402,7 +423,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
     let metricProvider = "unknown";
     let metricModel = input.modelSelection?.model;
     return yield* Effect.gen(function* () {
-      const routed = yield* resolveRoutableSession({
+      const routed = yield* sessionRouting.resolveRoutableSession({
         threadId: input.threadId,
         operation: "ProviderService.sendTurn",
         allowRecovery: true,
@@ -459,7 +480,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
       });
       let metricProvider = "unknown";
       return yield* Effect.gen(function* () {
-        const routed = yield* resolveRoutableSession({
+        const routed = yield* sessionRouting.resolveRoutableSession({
           threadId: input.threadId,
           operation: "ProviderService.interruptTurn",
           allowRecovery: true,
@@ -496,7 +517,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
       });
       let metricProvider = "unknown";
       return yield* Effect.gen(function* () {
-        const routed = yield* resolveRoutableSession({
+        const routed = yield* sessionRouting.resolveRoutableSession({
           threadId: input.threadId,
           operation: "ProviderService.respondToRequest",
           allowRecovery: true,
@@ -535,7 +556,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
     });
     let metricProvider = "unknown";
     return yield* Effect.gen(function* () {
-      const routed = yield* resolveRoutableSession({
+      const routed = yield* sessionRouting.resolveRoutableSession({
         threadId: input.threadId,
         operation: "ProviderService.respondToUserInput",
         allowRecovery: true,
@@ -568,7 +589,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
       });
       let metricProvider = "unknown";
       return yield* Effect.gen(function* () {
-        const routed = yield* resolveRoutableSession({
+        const routed = yield* sessionRouting.resolveRoutableSession({
           threadId: input.threadId,
           operation: "ProviderService.stopSession",
           allowRecovery: false,
@@ -662,7 +683,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
     }
     let metricProvider = "unknown";
     return yield* Effect.gen(function* () {
-      const routed = yield* resolveRoutableSession({
+      const routed = yield* sessionRouting.resolveRoutableSession({
         threadId: input.threadId,
         operation: "ProviderService.rollbackConversation",
         allowRecovery: true,
@@ -696,7 +717,7 @@ const makeProviderService = Effect.fn("makeProviderService")(function* (
       adapter.listSessions(),
     ).pipe(Effect.map((sessionsByAdapter) => sessionsByAdapter.flatMap((sessions) => sessions)));
     yield* Effect.forEach(activeSessions, (session) =>
-      upsertSessionBinding(session, session.threadId, {
+      sessionRouting.upsertSessionBinding(session, session.threadId, {
         lastRuntimeEvent: "provider.stopAll",
         lastRuntimeEventAt: new Date().toISOString(),
       }),

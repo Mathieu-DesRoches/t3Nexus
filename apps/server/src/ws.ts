@@ -5,23 +5,20 @@ import {
   CommandId,
   EventId,
   type OrchestrationCommand,
+  type OrchestrationEvent,
   type GitActionProgressEvent,
   type GitManagerServiceError,
   OrchestrationDispatchCommandError,
-  type OrchestrationEvent,
   OrchestrationGetFullThreadDiffError,
-  OrchestrationGetSnapshotError,
   OrchestrationGetTurnDiffError,
   ORCHESTRATION_WS_METHODS,
   ProjectSearchEntriesError,
   ProjectWriteFileError,
-  OrchestrationReplayEventsError,
   ThreadId,
   type TerminalEvent,
   WS_METHODS,
   WsRpcGroup,
 } from "@t3tools/contracts";
-import { clamp } from "effect/Number";
 import { HttpRouter, HttpServerRequest } from "effect/unstable/http";
 import { RpcSerialization, RpcServer } from "effect/unstable/rpc";
 
@@ -33,6 +30,11 @@ import { GitStatusBroadcaster } from "./git/Services/GitStatusBroadcaster";
 import { Keybindings } from "./keybindings";
 import { Open, resolveAvailableEditors } from "./open";
 import { normalizeDispatchCommand } from "./orchestration/Normalizer";
+import {
+  getOrchestrationSnapshotRpc,
+  replayOrchestrationEventsRpc,
+  subscribeOrchestrationDomainEventsRpc,
+} from "./orchestration/orchestrationRpc";
 import { OrchestrationEngineService } from "./orchestration/Services/OrchestrationEngine";
 import { ProjectionSnapshotQuery } from "./orchestration/Services/ProjectionSnapshotQuery";
 import {
@@ -470,15 +472,12 @@ const makeWsRpcLayer = (currentSessionId: AuthSessionId) =>
         [ORCHESTRATION_WS_METHODS.getSnapshot]: (_input) =>
           observeRpcEffect(
             ORCHESTRATION_WS_METHODS.getSnapshot,
-            projectionSnapshotQuery.getSnapshot().pipe(
-              Effect.mapError(
-                (cause) =>
-                  new OrchestrationGetSnapshotError({
-                    message: "Failed to load orchestration snapshot",
-                    cause,
-                  }),
-              ),
-            ),
+            getOrchestrationSnapshotRpc({
+              projectionSnapshotQuery,
+              orchestrationEngine,
+              enrichProjectEvent,
+              enrichOrchestrationEvents,
+            }),
             { "rpc.aggregate": "orchestration" },
           ),
         [ORCHESTRATION_WS_METHODS.dispatchCommand]: (command) =>
@@ -541,86 +540,25 @@ const makeWsRpcLayer = (currentSessionId: AuthSessionId) =>
         [ORCHESTRATION_WS_METHODS.replayEvents]: (input) =>
           observeRpcEffect(
             ORCHESTRATION_WS_METHODS.replayEvents,
-            Stream.runCollect(
-              orchestrationEngine.readEvents(
-                clamp(input.fromSequenceExclusive, {
-                  maximum: Number.MAX_SAFE_INTEGER,
-                  minimum: 0,
-                }),
-              ),
-            ).pipe(
-              Effect.map((events) => Array.from(events)),
-              Effect.flatMap(enrichOrchestrationEvents),
-              Effect.mapError(
-                (cause) =>
-                  new OrchestrationReplayEventsError({
-                    message: "Failed to replay orchestration events",
-                    cause,
-                  }),
-              ),
+            replayOrchestrationEventsRpc(
+              {
+                projectionSnapshotQuery,
+                orchestrationEngine,
+                enrichProjectEvent,
+                enrichOrchestrationEvents,
+              },
+              input.fromSequenceExclusive,
             ),
             { "rpc.aggregate": "orchestration" },
           ),
         [WS_METHODS.subscribeOrchestrationDomainEvents]: (_input) =>
           observeRpcStreamEffect(
             WS_METHODS.subscribeOrchestrationDomainEvents,
-            Effect.gen(function* () {
-              const snapshot = yield* orchestrationEngine.getReadModel();
-              const fromSequenceExclusive = snapshot.snapshotSequence;
-              const replayEvents: Array<OrchestrationEvent> = yield* Stream.runCollect(
-                orchestrationEngine.readEvents(fromSequenceExclusive),
-              ).pipe(
-                Effect.map((events) => Array.from(events)),
-                Effect.flatMap(enrichOrchestrationEvents),
-                Effect.catch(() => Effect.succeed([] as Array<OrchestrationEvent>)),
-              );
-              const replayStream = Stream.fromIterable(replayEvents);
-              const liveStream = orchestrationEngine.streamDomainEvents.pipe(
-                Stream.mapEffect(enrichProjectEvent),
-              );
-              const source = Stream.merge(replayStream, liveStream);
-              type SequenceState = {
-                readonly nextSequence: number;
-                readonly pendingBySequence: Map<number, OrchestrationEvent>;
-              };
-              const state = yield* Ref.make<SequenceState>({
-                nextSequence: fromSequenceExclusive + 1,
-                pendingBySequence: new Map<number, OrchestrationEvent>(),
-              });
-
-              return source.pipe(
-                Stream.mapEffect((event) =>
-                  Ref.modify(
-                    state,
-                    ({
-                      nextSequence,
-                      pendingBySequence,
-                    }): [Array<OrchestrationEvent>, SequenceState] => {
-                      if (event.sequence < nextSequence || pendingBySequence.has(event.sequence)) {
-                        return [[], { nextSequence, pendingBySequence }];
-                      }
-
-                      const updatedPending = new Map(pendingBySequence);
-                      updatedPending.set(event.sequence, event);
-
-                      const emit: Array<OrchestrationEvent> = [];
-                      let expected = nextSequence;
-                      for (;;) {
-                        const expectedEvent = updatedPending.get(expected);
-                        if (!expectedEvent) {
-                          break;
-                        }
-                        emit.push(expectedEvent);
-                        updatedPending.delete(expected);
-                        expected += 1;
-                      }
-
-                      return [emit, { nextSequence: expected, pendingBySequence: updatedPending }];
-                    },
-                  ),
-                ),
-                Stream.flatMap((events) => Stream.fromIterable(events)),
-              );
+            subscribeOrchestrationDomainEventsRpc({
+              projectionSnapshotQuery,
+              orchestrationEngine,
+              enrichProjectEvent,
+              enrichOrchestrationEvents,
             }),
             { "rpc.aggregate": "orchestration" },
           ),
