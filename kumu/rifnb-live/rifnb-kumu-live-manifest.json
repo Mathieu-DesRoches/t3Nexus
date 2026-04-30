@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-04-30T11:53:13.744Z",
+  "generated_at": "2026-04-30T12:00:28.553Z",
   "mode": "kumu_experiment_variant",
-  "experiment_id": "EXP-010",
-  "title": "Employment Economic Integration service focus",
-  "source_variant": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\workpack\\service-focus-blueprints\\employment-economic-integration.json",
+  "experiment_id": "EXP-011",
+  "title": "Settlement Navigation clean profile",
+  "source_variant": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\experiments\\variants\\EXP-011-settlement-navigation-clean-profile.json",
   "public_url": "https://raw.githubusercontent.com/Mathieu-DesRoches/t3Nexus/rifnb-kumu-live/kumu/rifnb-live/rifnb-kumu-live-blueprint.json",
   "counts": {
-    "elements": 24,
-    "connections": 26,
+    "elements": 33,
+    "connections": 38,
     "topLevelKeys": [
       "connections",
       "elements"
