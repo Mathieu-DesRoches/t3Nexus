@@ -1,19 +1,59 @@
 {
   "elements": [
     {
-      "id": "el-language-training",
-      "label": "Language / Training",
+      "id": "el-employment-economic-integration",
+      "label": "Employment / Economic Integration",
       "type": "Service category",
       "tags": [
         "service_category",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:focus-service"
       ],
-      "description": "Service-focus test view for Language / Training.\n\n6 provider nodes are connected to this service in the current generated workpack.\n\nUse this test to judge whether the category is useful as-is, too broad, too narrow, or needs a different label.",
+      "description": "Service-focus test view for Employment / Economic Integration.\n\n13 provider nodes are connected to this service in the current generated workpack.\n\nUse this test to judge whether the category is useful as-is, too broad, too narrow, or needs a different label.",
       "Kumu test role": "Focus service",
-      "Kumu focus service": "Language / Training",
+      "Kumu focus service": "Employment / Economic Integration",
       "Map reading note": "Selected service category",
-      "Provider count": "6"
+      "Provider count": "13"
+    },
+    {
+      "id": "el-aiac-nb",
+      "label": "AIAC NB",
+      "type": "Service Provider",
+      "tags": [
+        "community_integration",
+        "afrodescendant_community",
+        "immigration_support",
+        "focus_service:employment-economic-integration",
+        "focus_role:service-provider"
+      ],
+      "description": "Works for the cultural, social, economic and civic development of New Brunswick’s French-speaking Afro-Canadian community while promoting linguistic and cultural diversity. L’Association Initiatives Afro-Canadiennes du Nouveau Brunswick (AIAC-NB) œuvre pour le développement culturel, social, économique et citoyen de la communauté afro-canadienne francophone du Nouveau-Brunswick, tout en promouvant la diversité du contexte linguistique. Service area: Nouveau-Brunswick, avec concentration dans le Grand Moncton | New Brunswick Languages: French | English",
+      "Kumu test role": "Service provider",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Common name": "AIAC NB",
+      "Official name": "Association Initiatives Afro-Canadiennes du Nouveau Brunswick / Afro-Canadian Initiatives Association of New Brunswick",
+      "RIFNB member": "no",
+      "Service area": "Nouveau-Brunswick, avec concentration dans le Grand Moncton | New Brunswick",
+      "Languages": "French | English",
+      "Integration pathway": "Discovery Information | Application Selection | Welcome Orientation | Settlement | Integration",
+      "Services offered": "Settlement / Navigation | Employment / Economic Integration | Youth / Family Supports | Community / Cultural Integration",
+      "Website": "https://aiacnb.ca/"
+    },
+    {
+      "id": "el-new-brunswick",
+      "label": "New Brunswick",
+      "type": "Geographic anchor",
+      "tags": [
+        "geography",
+        "province",
+        "anchor",
+        "focus_service:employment-economic-integration",
+        "focus_role:geography"
+      ],
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
+      "Kumu test role": "Geography",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Map reading note": "Geographic context",
+      "Location": "New Brunswick"
     },
     {
       "id": "el-amal-newcomers",
@@ -22,13 +62,12 @@
       "tags": [
         "community",
         "inclusion",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:service-provider"
       ],
       "description": "Create a welcoming environment where newcomers can thrive and contribute to society. Amal est dédié à fournir un soutien essentiel et des conseils aux nouveaux arrivants lors de leur transition dans leur nouvelle communauté. Nous offrons une gamme de services, y compris des programmes d'orientation, une assistance linguistique et des ateliers d'intégration culturelle afin d'autonomiser les individus et les familles en les aidant à naviguer leur nouvel environnement avec confiance et aisance. Service area: Région du Grand Moncton Languages: French | English | Français | anglais | arabe | espagnol",
       "Kumu test role": "Service provider",
-      "Kumu focus service": "Language / Training",
-      "image": "https://static.wixstatic.com/media/de4885_f43e83f0953c413781a7549a44cf96b8~mv2.jpg/v1/crop/x_0,y_1,w_500,h_499/fill/w_500,h_499,al_c,q_80,enc_avif,quality_auto/Untitled%20design%20(2)_edited.jpg",
+      "Kumu focus service": "Employment / Economic Integration",
       "Common name": "Amal Newcomers",
       "Official name": "Amal Newcomers Services",
       "RIFNB member": "no",
@@ -46,12 +85,12 @@
         "geography",
         "region",
         "anchor",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:geography"
       ],
-      "description": "Geographic context node for the Language / Training service-focus test.",
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
       "Kumu test role": "Geography",
-      "Kumu focus service": "Language / Training",
+      "Kumu focus service": "Employment / Economic Integration",
       "Map reading note": "Geographic context",
       "Location": "Région du Grand Moncton"
     },
@@ -62,13 +101,12 @@
       "tags": [
         "settlement",
         "welcoming",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:service-provider"
       ],
       "description": "Fondée en 1974, l’Association multiculturelle de Fredericton joue un rôle essentiel en établissant la communication et en favorisant la compréhension entre la communauté, les immigrants établis et les nouveaux arrivants. Fondée en 1974, l’Association multiculturelle de Fredericton (AMCF) joue un rôle essentiel en établissant la communication et en favorisant la compréhension entre la communauté, les immigrants établis et les nouveaux arrivants. Service area: Fredericton et les environs Languages: French | English",
       "Kumu test role": "Service provider",
-      "Kumu focus service": "Language / Training",
-      "image": "https://mcaf.nb.ca/wp-content/uploads/elementor/thumbs/MCAFsite-o4i6prl2bekca9n4wk6erdzid49z6ghaaij4zytmg8.png",
+      "Kumu focus service": "Employment / Economic Integration",
       "Common name": "Association Multiculturelle de Fredericton",
       "Official name": "Association Multiculturelle de Fredericton Inc. / Multicultural Association of Fredericton Inc.",
       "RIFNB member": "yes",
@@ -86,14 +124,52 @@
         "geography",
         "place",
         "anchor",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:geography"
       ],
-      "description": "Geographic context node for the Language / Training service-focus test.",
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
       "Kumu test role": "Geography",
-      "Kumu focus service": "Language / Training",
+      "Kumu focus service": "Employment / Economic Integration",
       "Map reading note": "Geographic context",
       "Location": "Fredericton et les environs"
+    },
+    {
+      "id": "el-association-multiculturelle-de-la-region-chaleur",
+      "label": "Association Multiculturelle de la Région Chaleur",
+      "type": "Service Provider",
+      "tags": [
+        "settlement",
+        "welcoming",
+        "focus_service:employment-economic-integration",
+        "focus_role:service-provider"
+      ],
+      "description": "Welcome and integrate newcomers while promoting awareness in the Chaleur region community. Association Multiculturelle Région Chaleur inc. est un organisme à but non lucratif qui joue un rôle important dans l'accueil et l'intégration des nouveaux arrivants. Elle travaille aussi à sensibiliser la communauté de la région Chaleur. Service area: Région Chaleur",
+      "Kumu test role": "Service provider",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Common name": "Association Multiculturelle de la Région Chaleur",
+      "Official name": "Association Multiculturelle de la Région Chaleur inc. / Multicultural Association Chaleur Region Inc.",
+      "RIFNB member": "yes",
+      "Service area": "Région Chaleur",
+      "Integration pathway": "Welcome Orientation | Settlement | Integration",
+      "Services offered": "Settlement / Navigation | Pre-arrival / Immigration Pathways | Employment / Economic Integration | Community / Cultural Integration | Youth / Family Supports",
+      "Website": "https://macr-amrc.ca/"
+    },
+    {
+      "id": "el-region-chaleur",
+      "label": "Région Chaleur",
+      "type": "Geographic anchor",
+      "tags": [
+        "geography",
+        "region",
+        "anchor",
+        "focus_service:employment-economic-integration",
+        "focus_role:geography"
+      ],
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
+      "Kumu test role": "Geography",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Map reading note": "Geographic context",
+      "Location": "Région Chaleur"
     },
     {
       "id": "el-association-multiculturelle-du-restigouche",
@@ -102,13 +178,12 @@
       "tags": [
         "settlement",
         "welcoming",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:service-provider"
       ],
       "description": "Assumer un rôle de leadership dans la promotion du multiculturalisme et encourager des gens des quatre coins du monde à s’établir dans la région du Restigouche afin de contribuer au développement et à la croissance de la région. Favoriser le rapprochement et la communication entre personnes provenant de divers horizons culturels. Faciliter la collaboration régionale avec d’autres associations, et avec des entités publiques et privées afin de promouvoir les buts et les objectifs communs. Maintenir un centre d’accueil et d’intégration pour les nouveaux arrivants dans la région et offrir des services pour faciliter leur intégration sociale, fournir de la sensibilisation et de l’éducation à la communauté, offrir un soutien à l’emploi aux nouveaux arrivants et aux employeurs, encourager les cours de langue en français et en anglais. Service area: Comté de Restigouche Languages: French | English",
       "Kumu test role": "Service provider",
-      "Kumu focus service": "Language / Training",
-      "image": "https://scontent-lga3-1.xx.fbcdn.net/v/t39.30808-1/307981341_181664907720261_487883405163569043_n.jpg?stp=dst-jpg_s200x200_tt6&_nc_cat=111&ccb=1-7&_nc_sid=2d3e12&_nc_ohc=LPLOAe1OE9MQ7kNvwHEvEyW&_nc_oc=AdrYRSUi50SY0aTzJKsXz6NDDnQXlqs2KnqytM7Es9dBkk6Oadfx8IwcnEWKSFH05OQ&_nc_zt=24&_nc_ht=scontent-lga3-1.xx&_nc_gid=S5LvJhrNL1cWyWOTOcUKNg&_nc_ss=7a32e&oh=00_AfyKfC2jpn61tSihht5Z10iw15CyGULup0aPFY9df2n01A&oe=69C9DF32",
+      "Kumu focus service": "Employment / Economic Integration",
       "Common name": "Association Multiculturelle du Restigouche",
       "Official name": "Association Multiculturelle du Restigouche / Restigouche Multicultural Association",
       "RIFNB member": "yes",
@@ -126,14 +201,53 @@
         "geography",
         "place",
         "anchor",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:geography"
       ],
-      "description": "Geographic context node for the Language / Training service-focus test.",
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
       "Kumu test role": "Geography",
-      "Kumu focus service": "Language / Training",
+      "Kumu focus service": "Employment / Economic Integration",
       "Map reading note": "Geographic context",
       "Location": "Comté de Restigouche"
+    },
+    {
+      "id": "el-association-regionale-multiculturelle-de-miramichi",
+      "label": "Association régionale multiculturelle de Miramichi",
+      "type": "Service Provider",
+      "tags": [
+        "settlement",
+        "welcoming",
+        "focus_service:employment-economic-integration",
+        "focus_role:service-provider"
+      ],
+      "description": "Promotes education, understanding, communication, and harmony among cultures while assisting immigrant settlement in the Miramichi region. L'Association régionale multiculturelle de Miramichi (ARMM) est un organisme sans but lucratif qui existe pour éduquer et promouvoir la compréhension et la communication entre différentes cultures; attirer et aider à l’établissement des immigrants; et défendre les intérêts des personnes de toutes les origines. Le mandat principal de l'association est de fournir des services d’établissement et d’intégration aux immigrants. Service area: Région de Miramichi Languages: French | English",
+      "Kumu test role": "Service provider",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Common name": "Association régionale multiculturelle de Miramichi",
+      "Official name": "Association régionale multiculturelle de Miramichi / Miramichi Regional Multicultural Association",
+      "RIFNB member": "yes",
+      "Service area": "Région de Miramichi",
+      "Languages": "French | English",
+      "Integration pathway": "Welcome Orientation | Settlement | Integration",
+      "Services offered": "Legal / Documentation | Employment / Economic Integration | Interpretation / Translation | Information / Referral",
+      "Website": "https://miramichimulticultural.com/"
+    },
+    {
+      "id": "el-region-de-miramichi",
+      "label": "Région de Miramichi",
+      "type": "Geographic anchor",
+      "tags": [
+        "geography",
+        "region",
+        "anchor",
+        "focus_service:employment-economic-integration",
+        "focus_role:geography"
+      ],
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
+      "Kumu test role": "Geography",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Map reading note": "Geographic context",
+      "Location": "Région de Miramichi"
     },
     {
       "id": "el-centre-de-nouveaux-arrivants-de-saint-jean",
@@ -142,13 +256,12 @@
       "tags": [
         "settlement",
         "welcoming",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:service-provider"
       ],
       "description": "A go-to place for newcomers to Saint John, helping them settle down and integrate into the local community. Le Centre des nouveaux arrivants de Saint Jean est un organisme à but non lucratif fondé en 2009, considéré comme un leader dans l'offre d'une vaste gamme de services aux nouveaux arrivants dans la région du Grand Saint Jean. Le Centre soutient les nouveaux arrivants en facilitant leur intégration dans la communauté locale grâce à des visites exploratoires, un soutien à l'installation, des séances d'orientation individuelles et de groupe, des informations et conseils locaux, des groupes de conversation linguistique, des événements sociaux, et un centre de ressources avec documents de référence ainsi que des services d'impression et de photocopie gratuits. Il est financé par les gouvernements fédéral, provincial et municipal et compte sur le soutien de bénévoles locaux. Service area: Région du Grand Saint John Languages: French | English",
       "Kumu test role": "Service provider",
-      "Kumu focus service": "Language / Training",
-      "image": "https://sjnewcomers.ca/wp-content/themes/sjnewcomers/assets/img/site-logo.svg",
+      "Kumu focus service": "Employment / Economic Integration",
       "Common name": "Centre de Nouveaux Arrivants de Saint-Jean",
       "Official name": "Centre de Nouveaux Arrivants de Saint-Jean / Saint John Newcomers Centre",
       "RIFNB member": "yes",
@@ -166,12 +279,12 @@
         "geography",
         "region",
         "anchor",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:geography"
       ],
-      "description": "Geographic context node for the Language / Training service-focus test.",
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
       "Kumu test role": "Geography",
-      "Kumu focus service": "Language / Training",
+      "Kumu focus service": "Employment / Economic Integration",
       "Map reading note": "Geographic context",
       "Location": "Région du Grand Saint John"
     },
@@ -182,13 +295,12 @@
       "tags": [
         "settlement",
         "welcoming",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:service-provider"
       ],
       "description": "Contribuer à la croissance démographique du Nouveau-Brunswick en accompagnant et en établissant de nouveaux arrivants dans la Péninsule acadienne. Accueillir et retenir des nouveaux arrivants des pays francophones. Orienter les actions du CAIENA vers la participation optimale de ces nouveaux arrivants résidents à la vie économique, sociale et culturelle de la collectivité. Service area: Péninsule acadienne Languages: French",
       "Kumu test role": "Service provider",
-      "Kumu focus service": "Language / Training",
-      "image": "https://www.caiena.ca/wp-content/uploads/2021/03/logo-caiena-horz.png",
+      "Kumu focus service": "Employment / Economic Integration",
       "Common name": "Comité d’accueil, d’intégration et d’établissement des nouveaux arrivants de la Péninsule acadienne",
       "Official name": "Comité d'accueil, d'intégration et d'établissement des nouveaux arrivants de la Péninsule acadienne",
       "RIFNB member": "yes",
@@ -206,14 +318,115 @@
         "geography",
         "place",
         "anchor",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:geography"
       ],
-      "description": "Geographic context node for the Language / Training service-focus test.",
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
       "Kumu test role": "Geography",
-      "Kumu focus service": "Language / Training",
+      "Kumu focus service": "Employment / Economic Integration",
       "Map reading note": "Geographic context",
       "Location": "Péninsule acadienne"
+    },
+    {
+      "id": "el-conseil-provincial-des-societes-culturelles-du-nouveau-brunswick",
+      "label": "Conseil provincial des sociétés culturelles du Nouveau-Brunswick",
+      "type": "Service Provider",
+      "tags": [
+        "culture",
+        "francophone_community",
+        "community_integration",
+        "focus_service:employment-economic-integration",
+        "focus_role:service-provider"
+      ],
+      "description": "Promeut l’action et le développement culturel, artistique et patrimonial de la communauté acadienne et francophone du Nouveau-Brunswick grâce à son réseau de membres, de partenariats structurants et d’initiatives innovantes. Le Conseil provincial des sociétés culturelles assure un mentorat auprès de ses membres. Par les partenariats qu’il maintient, par ses actions innovantes et pérennes, il génère des retombées directes sur les sociétés culturelles et les collectivités dans lesquelles elles évoluent. Il favorise une communauté inclusive entre Acadien·ne·s et immigrant·e·s francophones et il contribue au développement de l’expression francophone orale et écrite. Service area: Toute la province | New Brunswick Languages: French",
+      "Kumu test role": "Service provider",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Common name": "Conseil provincial des sociétés culturelles du Nouveau-Brunswick",
+      "Official name": "Conseil provincial des sociétés culturelles du Nouveau-Brunswick",
+      "RIFNB member": "yes",
+      "Service area": "Toute la province | New Brunswick",
+      "Languages": "French",
+      "Integration pathway": "Integration",
+      "Services offered": "Employment / Economic Integration | Community / Cultural Integration",
+      "Website": "https://www.cpscnb.com/"
+    },
+    {
+      "id": "el-ignite-fredericton",
+      "label": "Ignite Fredericton",
+      "type": "Service Provider",
+      "tags": [
+        "economic_development",
+        "entrepreneurship_support",
+        "regional_integration",
+        "focus_service:employment-economic-integration",
+        "focus_role:service-provider"
+      ],
+      "description": "Supports business success and regional economic development from startup to succession across the capital region, including newcomer welcome resources. Ignite's mandate is to lead integrated economic development growth through diverse initiatives that create an environment for the Capital Region of New Brunswick and its businesses to be successful. Ignite provides strategic economic development support, focusing on business growth and workforce development, helping entrepreneurs at every stage—from starting a business to sustaining long-term success. Service area: Région de la capitale / vallée ouest Languages: French | English",
+      "Kumu test role": "Service provider",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Common name": "Ignite Fredericton",
+      "Official name": "Ignite",
+      "RIFNB member": "no",
+      "Service area": "Région de la capitale / vallée ouest",
+      "Languages": "French | English",
+      "Integration pathway": "Welcome Orientation | Settlement | Integration",
+      "Services offered": "Settlement / Navigation | Employment / Economic Integration",
+      "Website": "https://myignite.ca/"
+    },
+    {
+      "id": "el-region-de-la-capitale-vallee-ouest",
+      "label": "Région de la capitale / vallée ouest",
+      "type": "Geographic anchor",
+      "tags": [
+        "geography",
+        "region",
+        "anchor",
+        "focus_service:employment-economic-integration",
+        "focus_role:geography"
+      ],
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
+      "Kumu test role": "Geography",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Map reading note": "Geographic context",
+      "Location": "Région de la capitale / vallée ouest"
+    },
+    {
+      "id": "el-immigration-greater-moncton",
+      "label": "Immigration Greater Moncton",
+      "type": "Service Provider",
+      "tags": [
+        "regional_immigration_hub",
+        "information_resource",
+        "focus_service:employment-economic-integration",
+        "focus_role:service-provider"
+      ],
+      "description": "Provides immigration and settlement information to help newcomers settle and thrive in Greater Moncton. La Stratégie d’immigration du Grand Moncton 2020-2024 vise à accroître la population et à renforcer la communauté dans la région du Grand Moncton. Service area: Grand Moncton",
+      "Kumu test role": "Service provider",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Common name": "Immigration Greater Moncton",
+      "Official name": "Immigration Grand Moncton / Immigration Greater Moncton",
+      "RIFNB member": "no",
+      "Service area": "Grand Moncton",
+      "Integration pathway": "Discovery Information | Application Selection | Welcome Orientation | Settlement | Integration",
+      "Services offered": "Settlement / Navigation | Employment / Economic Integration",
+      "Website": "https://immigrationgreatermoncton.ca/"
+    },
+    {
+      "id": "el-grand-moncton",
+      "label": "Grand Moncton",
+      "type": "Geographic anchor",
+      "tags": [
+        "geography",
+        "region",
+        "anchor",
+        "focus_service:employment-economic-integration",
+        "focus_role:geography"
+      ],
+      "description": "Geographic context node for the Employment / Economic Integration service-focus test.",
+      "Kumu test role": "Geography",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Map reading note": "Geographic context",
+      "Location": "Grand Moncton"
     },
     {
       "id": "el-magma-amgm",
@@ -222,13 +435,12 @@
       "tags": [
         "community",
         "inclusion",
-        "focus_service:language-training",
+        "focus_service:employment-economic-integration",
         "focus_role:service-provider"
       ],
       "description": "Supports immigrants as they arrive, establish roots, and build a new home in the Greater Moncton area. MAGMA est une organisation de services d'établissement qui soutient les nouveaux arrivants depuis plus de quatre décennies. Son mandat est d'aider les nouveaux arrivants à s'établir dans la région du Grand Moncton en leur fournissant divers services qui facilitent l'accès aux services essentiels d'établissement, l'apprentissage de la vie au Canada, le développement de compétences sociales et professionnelles ainsi que l'apprentissage de l'anglais, en alignement avec les stratégies régionales, municipales, provinciales et fédérales d'immigration et de rétention. Service area: Région du Grand Moncton Languages: French | English | Français | anglais | soutien multilingue à l’établissement",
       "Kumu test role": "Service provider",
-      "Kumu focus service": "Language / Training",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Kumu focus service": "Employment / Economic Integration",
       "Common name": "MAGMA / AMGM",
       "Official name": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
       "RIFNB member": "yes",
@@ -237,13 +449,50 @@
       "Integration pathway": "Welcome Orientation | Settlement | Integration",
       "Services offered": "Settlement / Navigation | Language / Training | Employment / Economic Integration | Youth / Family Supports | Pre-arrival / Immigration Pathways",
       "Website": "https://magma-amgm.org/"
+    },
+    {
+      "id": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
+      "label": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
+      "type": "Service Provider",
+      "tags": [
+        "economic_development",
+        "employability",
+        "francophone_immigration",
+        "focus_service:employment-economic-integration",
+        "focus_role:service-provider"
+      ],
+      "description": "Initie, développe et appuie des stratégies et des initiatives de développement qui répondent aux besoins des communautés francophones et acadiennes afin de contribuer à la vitalité économique de la province. The organization initiates, develops, and supports development strategies and initiatives that meet the needs of Francophone and Acadian communities to contribute to the economic vitality of the province. Its actions are articulated around two sectors of intervention: Economic Development and Employability. Service area: Toute la province | New Brunswick Languages: French",
+      "Kumu test role": "Service provider",
+      "Kumu focus service": "Employment / Economic Integration",
+      "Common name": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
+      "Official name": "Réseau de développement économique et d'employabilité du Nouveau-Brunswick / Economic Development and Employability Network of New Brunswick",
+      "RIFNB member": "yes",
+      "Service area": "Toute la province | New Brunswick",
+      "Languages": "French",
+      "Integration pathway": "Discovery Information | Application Selection | Settlement | Integration",
+      "Services offered": "Economic Development / Business Support | Employment / Economic Integration | Information / Referral | Education / Learning",
+      "Website": "https://rdee-nb.com/"
     }
   ],
   "connections": [
     {
-      "id": "cn-provides-amal-newcomers-language-training",
+      "id": "cn-provides-aiac-nb-employment-economic-integration",
+      "from": "el-aiac-nb",
+      "to": "el-employment-economic-integration",
+      "type": "Provides",
+      "Kumu test role": "Service link"
+    },
+    {
+      "id": "cn-located-in-aiac-nb-new-brunswick",
+      "from": "el-aiac-nb",
+      "to": "el-new-brunswick",
+      "type": "Located in",
+      "Kumu test role": "Geography link"
+    },
+    {
+      "id": "cn-provides-amal-newcomers-employment-economic-integration",
       "from": "el-amal-newcomers",
-      "to": "el-language-training",
+      "to": "el-employment-economic-integration",
       "type": "Provides",
       "Kumu test role": "Service link"
     },
@@ -255,9 +504,9 @@
       "Kumu test role": "Geography link"
     },
     {
-      "id": "cn-provides-association-multiculturelle-de-fredericton-language-training",
+      "id": "cn-provides-association-multiculturelle-de-fredericton-employment-economic-integration",
       "from": "el-association-multiculturelle-de-fredericton",
-      "to": "el-language-training",
+      "to": "el-employment-economic-integration",
       "type": "Provides",
       "Kumu test role": "Service link"
     },
@@ -269,9 +518,23 @@
       "Kumu test role": "Geography link"
     },
     {
-      "id": "cn-provides-association-multiculturelle-du-restigouche-language-training",
+      "id": "cn-provides-association-multiculturelle-de-la-region-chaleur-employment-economic-integration",
+      "from": "el-association-multiculturelle-de-la-region-chaleur",
+      "to": "el-employment-economic-integration",
+      "type": "Provides",
+      "Kumu test role": "Service link"
+    },
+    {
+      "id": "cn-located-in-association-multiculturelle-de-la-region-chaleur-region-chaleur",
+      "from": "el-association-multiculturelle-de-la-region-chaleur",
+      "to": "el-region-chaleur",
+      "type": "Located in",
+      "Kumu test role": "Geography link"
+    },
+    {
+      "id": "cn-provides-association-multiculturelle-du-restigouche-employment-economic-integration",
       "from": "el-association-multiculturelle-du-restigouche",
-      "to": "el-language-training",
+      "to": "el-employment-economic-integration",
       "type": "Provides",
       "Kumu test role": "Service link"
     },
@@ -283,9 +546,23 @@
       "Kumu test role": "Geography link"
     },
     {
-      "id": "cn-provides-centre-de-nouveaux-arrivants-de-saint-jean-language-training",
+      "id": "cn-provides-association-regionale-multiculturelle-de-miramichi-employment-economic-integration",
+      "from": "el-association-regionale-multiculturelle-de-miramichi",
+      "to": "el-employment-economic-integration",
+      "type": "Provides",
+      "Kumu test role": "Service link"
+    },
+    {
+      "id": "cn-located-in-association-regionale-multiculturelle-de-miramichi-region-de-miramichi",
+      "from": "el-association-regionale-multiculturelle-de-miramichi",
+      "to": "el-region-de-miramichi",
+      "type": "Located in",
+      "Kumu test role": "Geography link"
+    },
+    {
+      "id": "cn-provides-centre-de-nouveaux-arrivants-de-saint-jean-employment-economic-integration",
       "from": "el-centre-de-nouveaux-arrivants-de-saint-jean",
-      "to": "el-language-training",
+      "to": "el-employment-economic-integration",
       "type": "Provides",
       "Kumu test role": "Service link"
     },
@@ -297,9 +574,9 @@
       "Kumu test role": "Geography link"
     },
     {
-      "id": "cn-provides-comite-d-accueil-d-integration-et-d-etablissement-des-nouveaux-arrivants-de-la-peninsule-acadienne-language-training",
+      "id": "cn-provides-comite-d-accueil-d-integration-et-d-etablissement-des-nouveaux-arrivants-de-la-peninsule-acadienne-employment-economic-integration",
       "from": "el-comite-d-accueil-d-integration-et-d-etablissement-des-nouveaux-arrivants-de-la-peninsule-acadienne",
-      "to": "el-language-training",
+      "to": "el-employment-economic-integration",
       "type": "Provides",
       "Kumu test role": "Service link"
     },
@@ -311,9 +588,51 @@
       "Kumu test role": "Geography link"
     },
     {
-      "id": "cn-provides-magma-amgm-language-training",
+      "id": "cn-provides-conseil-provincial-des-societes-culturelles-du-nouveau-brunswick-employment-economic-integration",
+      "from": "el-conseil-provincial-des-societes-culturelles-du-nouveau-brunswick",
+      "to": "el-employment-economic-integration",
+      "type": "Provides",
+      "Kumu test role": "Service link"
+    },
+    {
+      "id": "cn-located-in-conseil-provincial-des-societes-culturelles-du-nouveau-brunswick-new-brunswick",
+      "from": "el-conseil-provincial-des-societes-culturelles-du-nouveau-brunswick",
+      "to": "el-new-brunswick",
+      "type": "Located in",
+      "Kumu test role": "Geography link"
+    },
+    {
+      "id": "cn-provides-ignite-fredericton-employment-economic-integration",
+      "from": "el-ignite-fredericton",
+      "to": "el-employment-economic-integration",
+      "type": "Provides",
+      "Kumu test role": "Service link"
+    },
+    {
+      "id": "cn-located-in-ignite-fredericton-region-de-la-capitale-vallee-ouest",
+      "from": "el-ignite-fredericton",
+      "to": "el-region-de-la-capitale-vallee-ouest",
+      "type": "Located in",
+      "Kumu test role": "Geography link"
+    },
+    {
+      "id": "cn-provides-immigration-greater-moncton-employment-economic-integration",
+      "from": "el-immigration-greater-moncton",
+      "to": "el-employment-economic-integration",
+      "type": "Provides",
+      "Kumu test role": "Service link"
+    },
+    {
+      "id": "cn-located-in-immigration-greater-moncton-grand-moncton",
+      "from": "el-immigration-greater-moncton",
+      "to": "el-grand-moncton",
+      "type": "Located in",
+      "Kumu test role": "Geography link"
+    },
+    {
+      "id": "cn-provides-magma-amgm-employment-economic-integration",
       "from": "el-magma-amgm",
-      "to": "el-language-training",
+      "to": "el-employment-economic-integration",
       "type": "Provides",
       "Kumu test role": "Service link"
     },
@@ -321,6 +640,20 @@
       "id": "cn-located-in-magma-amgm-region-du-grand-moncton",
       "from": "el-magma-amgm",
       "to": "el-region-du-grand-moncton",
+      "type": "Located in",
+      "Kumu test role": "Geography link"
+    },
+    {
+      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-employment-economic-integration",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
+      "to": "el-employment-economic-integration",
+      "type": "Provides",
+      "Kumu test role": "Service link"
+    },
+    {
+      "id": "cn-located-in-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-new-brunswick",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
+      "to": "el-new-brunswick",
       "type": "Located in",
       "Kumu test role": "Geography link"
     }
