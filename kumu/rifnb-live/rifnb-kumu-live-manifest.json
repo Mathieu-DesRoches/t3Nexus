@@ -1,13 +1,13 @@
 {
-  "generated_at": "2026-04-30T12:00:28.553Z",
+  "generated_at": "2026-04-30T12:05:02.353Z",
   "mode": "kumu_experiment_variant",
-  "experiment_id": "EXP-011",
-  "title": "Settlement Navigation clean profile",
-  "source_variant": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\experiments\\variants\\EXP-011-settlement-navigation-clean-profile.json",
+  "experiment_id": "EXP-012",
+  "title": "Language Training clean profile",
+  "source_variant": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\experiments\\variants\\EXP-012-language-training-clean-profile.json",
   "public_url": "https://raw.githubusercontent.com/Mathieu-DesRoches/t3Nexus/rifnb-kumu-live/kumu/rifnb-live/rifnb-kumu-live-blueprint.json",
   "counts": {
-    "elements": 33,
-    "connections": 38,
+    "elements": 12,
+    "connections": 12,
     "topLevelKeys": [
       "connections",
       "elements"
