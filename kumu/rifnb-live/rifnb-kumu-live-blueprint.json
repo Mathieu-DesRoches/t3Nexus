@@ -2718,10 +2718,10 @@
       "If partial regions / zones, specify the towns or cities serviced": "Campus local",
       "Location": "140 Rue Champlain Suite 201, Dieppe, NB E1A 1N8 | 200 Rue Champlain, Suite 150, Dieppe, N.-B. E1A 1P1",
       "Official Language offered for services": "French",
-      "Official name of org / entity": "Centre d'innovation en immigration francophone Ètablit èa l'hotel de ville de Dieppe",
+      "Official name of org / entity": "Centre d'innovation en immigration francophone",
       "Region / scope of offered services": "Campus local",
       "Services offered to individuals": "Accueil et établissement, services avant l’immigration, PICA, étudiants internationaux francophones, jeunesse, famille et francisation, activités culturelles et loisirs.",
-      "Web site of org": "https://cafi-nb.org",
+      "Web site of org": "https://cafi-nb.org/",
       "common name of org": "Centre d'innovation en immigration francophone"
     },
     {
@@ -2993,7 +2993,7 @@
     },
     {
       "id": "el-codac-nb",
-      "label": "CODAC NB",
+      "label": "Codac NB",
       "type": "Service Provider",
       "tags": [
         "education",
@@ -3010,7 +3010,7 @@
       "Services offered to individuals": "Youth / Family Supports; Education / Learning; Other / Needs Review",
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Web site of org": "https://codacnb.ca/",
-      "common name of org": "CODAC NB",
+      "common name of org": "Codac NB",
       "membre du rifnb": "x"
     },
     {
@@ -4078,6 +4078,29 @@
       "common name of org": "l’Autorité des marchés financiers"
     },
     {
+      "id": "el-magma-amgm",
+      "label": "MAGMA / AMGM",
+      "type": "Service Provider",
+      "tags": [
+        "community",
+        "inclusion"
+      ],
+      "description": "Supports immigrants as they arrive, establish roots, and build a new home in the Greater Moncton area. MAGMA est une organisation de services d'établissement qui soutient les nouveaux arrivants depuis plus de quatre décennies. Son mandat est d'aider les nouveaux arrivants à s'établir dans la région du Grand Moncton en leur fournissant divers services qui facilitent l'accès aux services essentiels d'établissement, l'apprentissage de la vie au Canada, le développement de compétences sociales et professionnelles ainsi que l'apprentissage de l'anglais, en alignement avec les stratégies régionales, municipales, provinciales et fédérales d'immigration et de rétention.",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
       "id": "el-maple-hills",
       "label": "Maple Hills",
       "type": "Service Provider",
@@ -4542,29 +4565,6 @@
       "common name of org": "Quispamsis"
     },
     {
-      "id": "el-rcc",
-      "label": "rcc",
-      "type": "Service Provider",
-      "tags": [
-        "community",
-        "inclusion"
-      ],
-      "description": "Supports immigrants as they arrive, establish roots, and build a new home in the Greater Moncton area. MAGMA est une organisation de services d'établissement qui soutient les nouveaux arrivants depuis plus de quatre décennies. Son mandat est d'aider les nouveaux arrivants à s'établir dans la région du Grand Moncton en leur fournissant divers services qui facilitent l'accès aux services essentiels d'établissement, l'apprentissage de la vie au Canada, le développement de compétences sociales et professionnelles ainsi que l'apprentissage de l'anglais, en alignement avec les stratégies régionales, municipales, provinciales et fédérales d'immigration et de rétention.",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
-      "membre du rifnb": "x"
-    },
-    {
       "id": "el-regional-community-of-southern-victoria",
       "label": "Regional Community of Southern Victoria",
       "type": "Service Provider",
@@ -4641,8 +4641,8 @@
       "common name of org": "Rothesay"
     },
     {
-      "id": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton",
-      "label": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "id": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
+      "label": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "type": "Service Provider",
       "tags": [
         "economic_development",
@@ -4660,7 +4660,7 @@
       "Services offered to individuals": "Economic Development / Business Support; Employment / Economic Integration; Information / Referral; Education / Learning",
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection; Settlement; Integration",
       "Web site of org": "https://rdee-nb.com/",
-      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
@@ -5794,6 +5794,14 @@
       "membre du rifnb": "x"
     },
     {
+      "id": "el-clnb",
+      "label": "clnb",
+      "type": "System Steward",
+      "Official name of org / entity": "geof",
+      "common name of org": "clnb",
+      "membre du rifnb": "x"
+    },
+    {
       "id": "el-commission-de-services-regionaux-chaleur",
       "label": "Commission de services régionaux Chaleur",
       "type": "System Steward",
@@ -6426,6 +6434,14 @@
       "membre du rifnb": "x"
     },
     {
+      "id": "el-loisir",
+      "label": "loisir",
+      "type": "System Steward",
+      "Official name of org / entity": "Accueil :: Nadeau Poultry",
+      "common name of org": "loisir",
+      "membre du rifnb": "x"
+    },
+    {
       "id": "el-mactaquac-country-chamber-of-commerce",
       "label": "Mactaquac Country Chamber of Commerce",
       "type": "System Steward",
@@ -6509,14 +6525,6 @@
       "type": "System Steward",
       "Official name of org / entity": "Mount A",
       "common name of org": "Mount Allison University",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "el-nadeau-poultry",
-      "label": "Nadeau Poultry",
-      "type": "System Steward",
-      "Official name of org / entity": "Accueil :: Nadeau Poultry",
-      "common name of org": "Nadeau Poultry",
       "membre du rifnb": "x"
     },
     {
@@ -6903,8 +6911,8 @@
       "common name of org": "Société Santé en français"
     },
     {
-      "id": "el-ssmefnb",
-      "label": "SSMEFNB",
+      "id": "el-societe-sante-et-mieux-etre-en-francais-du-nouveau-brunswick",
+      "label": "Société Santé et Mieux-être en français du Nouveau-Brunswick",
       "type": "System Steward",
       "tags": [
         "health_network",
@@ -6922,7 +6930,7 @@
       "Services offered to individuals": "Health and well-being promotion, coordination through action networks, tools and resources for francophone communities",
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Web site of org": "https://ssmefnb.ca/",
-      "common name of org": "SSMEFNB",
+      "common name of org": "Société Santé et Mieux-être en français du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
@@ -6980,14 +6988,6 @@
       "Region / scope of offered services": "St. Stephen",
       "Web site of org": "http://www.ststephenchamber.com",
       "common name of org": "St. Stephen Area Chamber of Commerce"
-    },
-    {
-      "id": "el-sunnymel",
-      "label": "Sunnymel",
-      "type": "System Steward",
-      "Official name of org / entity": "Accueil -",
-      "common name of org": "Sunnymel",
-      "membre du rifnb": "x"
     },
     {
       "id": "el-sussex",
@@ -7934,10 +7934,10 @@
       "If partial regions / zones, specify the towns or cities serviced": "Campus local",
       "Location": "140 Rue Champlain Suite 201, Dieppe, NB E1A 1N8 | 200 Rue Champlain, Suite 150, Dieppe, N.-B. E1A 1P1",
       "Official Language offered for services": "French",
-      "Official name of org / entity": "Centre d'innovation en immigration francophone Ètablit èa l'hotel de ville de Dieppe",
+      "Official name of org / entity": "Centre d'innovation en immigration francophone",
       "Region / scope of offered services": "Campus local",
       "Services offered to individuals": "Accueil et établissement, services avant l’immigration, PICA, étudiants internationaux francophones, jeunesse, famille et francisation, activités culturelles et loisirs.",
-      "Web site of org": "https://cafi-nb.org",
+      "Web site of org": "https://cafi-nb.org/",
       "common name of org": "Centre d'innovation en immigration francophone"
     },
     {
@@ -8303,7 +8303,7 @@
       "Services offered to individuals": "Youth / Family Supports; Education / Learning; Other / Needs Review",
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Web site of org": "https://codacnb.ca/",
-      "common name of org": "CODAC NB",
+      "common name of org": "Codac NB",
       "membre du rifnb": "x"
     },
     {
@@ -9585,6 +9585,27 @@
       "common name of org": "Mactaquac Country Chamber of Commerce"
     },
     {
+      "id": "cn-located-in-magma-amgm-region-du-grand-moncton",
+      "from": "el-magma-amgm",
+      "to": "el-region-du-grand-moncton",
+      "direction": "directed",
+      "type": "Located in",
+      "description": "Scope: Région du Grand Moncton | Location: 22 Church Street, Moncton, New Brunswick, Canada",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
       "id": "cn-located-in-maple-hills-irishtown",
       "from": "el-maple-hills",
       "to": "el-irishtown",
@@ -10058,27 +10079,6 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-located-in-rcc-region-du-grand-moncton",
-      "from": "el-rcc",
-      "to": "el-region-du-grand-moncton",
-      "direction": "directed",
-      "type": "Located in",
-      "description": "Scope: Région du Grand Moncton | Location: 22 Church Street, Moncton, New Brunswick, Canada",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
-      "membre du rifnb": "x"
-    },
-    {
       "id": "cn-located-in-regional-community-of-southern-victoria-perth-andover",
       "from": "el-regional-community-of-southern-victoria",
       "to": "el-perth-andover",
@@ -10128,8 +10128,8 @@
       "common name of org": "Rivière-du-Nord"
     },
     {
-      "id": "cn-located-in-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton-new-brunswick",
-      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton",
+      "id": "cn-located-in-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-new-brunswick",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
       "to": "el-new-brunswick",
       "direction": "directed",
       "type": "Located in",
@@ -10144,7 +10144,7 @@
       "Services offered to individuals": "Economic Development / Business Support; Employment / Economic Integration; Information / Referral; Education / Learning",
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection; Settlement; Integration",
       "Web site of org": "https://rdee-nb.com/",
-      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
@@ -10303,8 +10303,8 @@
       "common name of org": "Société Santé en français"
     },
     {
-      "id": "cn-located-in-ssmefnb-new-brunswick",
-      "from": "el-ssmefnb",
+      "id": "cn-located-in-societe-sante-et-mieux-etre-en-francais-du-nouveau-brunswick-new-brunswick",
+      "from": "el-societe-sante-et-mieux-etre-en-francais-du-nouveau-brunswick",
       "to": "el-new-brunswick",
       "direction": "directed",
       "type": "Located in",
@@ -10319,7 +10319,7 @@
       "Services offered to individuals": "Health and well-being promotion, coordination through action networks, tools and resources for francophone communities",
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Web site of org": "https://ssmefnb.ca/",
-      "common name of org": "SSMEFNB",
+      "common name of org": "Société Santé et Mieux-être en français du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
@@ -12186,7 +12186,7 @@
       "Services offered to individuals": "Youth / Family Supports; Education / Learning; Other / Needs Review",
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Web site of org": "https://codacnb.ca/",
-      "common name of org": "CODAC NB",
+      "common name of org": "Codac NB",
       "membre du rifnb": "x"
     },
     {
@@ -12204,7 +12204,7 @@
       "Services offered to individuals": "Youth / Family Supports; Education / Learning; Other / Needs Review",
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Web site of org": "https://codacnb.ca/",
-      "common name of org": "CODAC NB",
+      "common name of org": "Codac NB",
       "membre du rifnb": "x"
     },
     {
@@ -12222,7 +12222,7 @@
       "Services offered to individuals": "Youth / Family Supports; Education / Learning; Other / Needs Review",
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Web site of org": "https://codacnb.ca/",
-      "common name of org": "CODAC NB",
+      "common name of org": "Codac NB",
       "membre du rifnb": "x"
     },
     {
@@ -13136,6 +13136,111 @@
       "common name of org": "Immigration Greater Moncton"
     },
     {
+      "id": "cn-provides-magma-amgm-employment-economic-integration",
+      "from": "el-magma-amgm",
+      "to": "el-employment-economic-integration",
+      "direction": "directed",
+      "type": "Provides",
+      "description": "Audience: Newcomers seeking labour market integration | Delivery: In-person; Hybrid",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
+      "id": "cn-provides-magma-amgm-language-training",
+      "from": "el-magma-amgm",
+      "to": "el-language-training",
+      "direction": "directed",
+      "type": "Provides",
+      "description": "Audience: Language level assessed; program-specific eligibility (e.g. CLB/LINC) | Delivery: In-person; Online",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
+      "id": "cn-provides-magma-amgm-pre-arrival-immigration-pathways",
+      "from": "el-magma-amgm",
+      "to": "el-pre-arrival-immigration-pathways",
+      "direction": "directed",
+      "type": "Provides",
+      "description": "Audience: Atlantic Immigration Program participants; availability subject to provincial allocation | Delivery: In-person; Hybrid",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
+      "id": "cn-provides-magma-amgm-settlement-navigation",
+      "from": "el-magma-amgm",
+      "to": "el-settlement-navigation",
+      "direction": "directed",
+      "type": "Provides",
+      "description": "Audience: Newcomers to Canada living in Greater Moncton / Southeast NB | Delivery: In-person; Hybrid || Audience: Individuals seeking specialized or safe-space supports | Delivery: Hybrid",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
+      "id": "cn-provides-magma-amgm-youth-family-supports",
+      "from": "el-magma-amgm",
+      "to": "el-youth-family-supports",
+      "direction": "directed",
+      "type": "Provides",
+      "description": "Audience: Newcomer children and families enrolled in local schools | Delivery: In-person || Audience: Parents participating in MAGMA programs; age-specific programs apply | Delivery: In-person",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
       "id": "cn-provides-new-brunswick-refugee-clinic-legal-documentation",
       "from": "el-new-brunswick-refugee-clinic",
       "to": "el-legal-documentation",
@@ -13153,111 +13258,6 @@
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection",
       "Web site of org": "https://nbrc-crnb.ca/",
       "common name of org": "New Brunswick Refugee Clinic",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "cn-provides-rcc-employment-economic-integration",
-      "from": "el-rcc",
-      "to": "el-employment-economic-integration",
-      "direction": "directed",
-      "type": "Provides",
-      "description": "Audience: Newcomers seeking labour market integration | Delivery: In-person; Hybrid",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "cn-provides-rcc-language-training",
-      "from": "el-rcc",
-      "to": "el-language-training",
-      "direction": "directed",
-      "type": "Provides",
-      "description": "Audience: Language level assessed; program-specific eligibility (e.g. CLB/LINC) | Delivery: In-person; Online",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "cn-provides-rcc-pre-arrival-immigration-pathways",
-      "from": "el-rcc",
-      "to": "el-pre-arrival-immigration-pathways",
-      "direction": "directed",
-      "type": "Provides",
-      "description": "Audience: Atlantic Immigration Program participants; availability subject to provincial allocation | Delivery: In-person; Hybrid",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "cn-provides-rcc-settlement-navigation",
-      "from": "el-rcc",
-      "to": "el-settlement-navigation",
-      "direction": "directed",
-      "type": "Provides",
-      "description": "Audience: Newcomers to Canada living in Greater Moncton / Southeast NB | Delivery: In-person; Hybrid || Audience: Individuals seeking specialized or safe-space supports | Delivery: Hybrid",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "cn-provides-rcc-youth-family-supports",
-      "from": "el-rcc",
-      "to": "el-youth-family-supports",
-      "direction": "directed",
-      "type": "Provides",
-      "description": "Audience: Newcomer children and families enrolled in local schools | Delivery: In-person || Audience: Parents participating in MAGMA programs; age-specific programs apply | Delivery: In-person",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
       "membre du rifnb": "x"
     },
     {
@@ -13299,8 +13299,8 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton-economic-development-business-support",
-      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton",
+      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-economic-development-business-support",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
       "to": "el-economic-development-business-support",
       "direction": "directed",
       "type": "Provides",
@@ -13314,12 +13314,12 @@
       "Services offered to individuals": "Economic Development / Business Support; Employment / Economic Integration; Information / Referral; Education / Learning",
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection; Settlement; Integration",
       "Web site of org": "https://rdee-nb.com/",
-      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton-education-learning",
-      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton",
+      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-education-learning",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
       "to": "el-education-learning",
       "direction": "directed",
       "type": "Provides",
@@ -13333,12 +13333,12 @@
       "Services offered to individuals": "Economic Development / Business Support; Employment / Economic Integration; Information / Referral; Education / Learning",
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection; Settlement; Integration",
       "Web site of org": "https://rdee-nb.com/",
-      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton-employment-economic-integration",
-      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton",
+      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-employment-economic-integration",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
       "to": "el-employment-economic-integration",
       "direction": "directed",
       "type": "Provides",
@@ -13352,12 +13352,12 @@
       "Services offered to individuals": "Economic Development / Business Support; Employment / Economic Integration; Information / Referral; Education / Learning",
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection; Settlement; Integration",
       "Web site of org": "https://rdee-nb.com/",
-      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton-information-referral",
-      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton",
+      "id": "cn-provides-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-information-referral",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
       "to": "el-information-referral",
       "direction": "directed",
       "type": "Provides",
@@ -13371,7 +13371,7 @@
       "Services offered to individuals": "Economic Development / Business Support; Employment / Economic Integration; Information / Referral; Education / Learning",
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection; Settlement; Integration",
       "Web site of org": "https://rdee-nb.com/",
-      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
@@ -13791,6 +13791,17 @@
       "membre du rifnb": "x"
     },
     {
+      "id": "cn-member-of-network-clnb-rifnb",
+      "from": "el-clnb",
+      "to": "el-rifnb",
+      "direction": "directed",
+      "type": "member_of_network",
+      "Official name of org / entity": "geof",
+      "Strength": "1",
+      "common name of org": "clnb",
+      "membre du rifnb": "x"
+    },
+    {
       "id": "cn-member-of-network-codac-nb-rifnb",
       "from": "el-codac-nb",
       "to": "el-rifnb",
@@ -13806,7 +13817,7 @@
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Strength": "1",
       "Web site of org": "https://codacnb.ca/",
-      "common name of org": "CODAC NB",
+      "common name of org": "Codac NB",
       "membre du rifnb": "x"
     },
     {
@@ -14216,6 +14227,38 @@
       "membre du rifnb": "x"
     },
     {
+      "id": "cn-member-of-network-loisir-rifnb",
+      "from": "el-loisir",
+      "to": "el-rifnb",
+      "direction": "directed",
+      "type": "member_of_network",
+      "Official name of org / entity": "Accueil :: Nadeau Poultry",
+      "Strength": "1",
+      "common name of org": "loisir",
+      "membre du rifnb": "x"
+    },
+    {
+      "id": "cn-member-of-network-magma-amgm-rifnb",
+      "from": "el-magma-amgm",
+      "to": "el-rifnb",
+      "direction": "directed",
+      "type": "member_of_network",
+      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
+      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
+      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
+      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
+      "Official Language offered for services": "French; English",
+      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
+      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
+      "Region / scope of offered services": "Région du Grand Moncton",
+      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Strength": "1",
+      "Web site of org": "https://magma-amgm.org/",
+      "common name of org": "MAGMA / AMGM",
+      "membre du rifnb": "x"
+    },
+    {
       "id": "cn-member-of-network-moncton-cares-rifnb",
       "from": "el-moncton-cares",
       "to": "el-rifnb",
@@ -14245,17 +14288,6 @@
       "Official name of org / entity": "Mount A",
       "Strength": "1",
       "common name of org": "Mount Allison University",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "cn-member-of-network-nadeau-poultry-rifnb",
-      "from": "el-nadeau-poultry",
-      "to": "el-rifnb",
-      "direction": "directed",
-      "type": "member_of_network",
-      "Official name of org / entity": "Accueil :: Nadeau Poultry",
-      "Strength": "1",
-      "common name of org": "Nadeau Poultry",
       "membre du rifnb": "x"
     },
     {
@@ -14353,27 +14385,6 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-member-of-network-rcc-rifnb",
-      "from": "el-rcc",
-      "to": "el-rifnb",
-      "direction": "directed",
-      "type": "member_of_network",
-      "image": "https://magma-amgm.org/wp-content/uploads/2024/02/MAGMA-VECTOR-NAVY-BLUE-04-2.png",
-      "Delivery Mode": "In-person; Hybrid; In-person; Online; In-person; Hybrid",
-      "If partial regions / zones, specify the towns or cities serviced": "Région du Grand Moncton",
-      "Location": "22 Church Street, Moncton, New Brunswick, Canada",
-      "Official Language offered for services": "French; English",
-      "Official name of org / entity": "Agence multiculturelle de la région du Grand Moncton / Multicultural Agency of the Greater Moncton Area",
-      "Other languages other than en / fr ?": "Français; anglais; soutien multilingue à l’établissement",
-      "Region / scope of offered services": "Région du Grand Moncton",
-      "Services offered to individuals": "Settlement / Navigation; Language / Training; Employment / Economic Integration; Youth / Family Supports; Pre-arrival / Immigration Pathways",
-      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
-      "Strength": "1",
-      "Web site of org": "https://magma-amgm.org/",
-      "common name of org": "rcc",
-      "membre du rifnb": "x"
-    },
-    {
       "id": "cn-member-of-network-regroupement-feministe-du-nouveau-brunswick-rifnb",
       "from": "el-regroupement-feministe-du-nouveau-brunswick",
       "to": "el-rifnb",
@@ -14394,8 +14405,8 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-member-of-network-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton-rifnb",
-      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-moncton",
+      "id": "cn-member-of-network-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick-rifnb",
+      "from": "el-reseau-de-developpement-economique-et-d-employabilite-du-nouveau-brunswick",
       "to": "el-rifnb",
       "direction": "directed",
       "type": "member_of_network",
@@ -14410,7 +14421,7 @@
       "Stage in the Francophone Integration Pathway at which services are provided": "Discovery Information; Application Selection; Settlement; Integration",
       "Strength": "1",
       "Web site of org": "https://rdee-nb.com/",
-      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick - Moncton",
+      "common name of org": "Réseau de développement économique et d’employabilité du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
@@ -14481,8 +14492,8 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-member-of-network-ssmefnb-rifnb",
-      "from": "el-ssmefnb",
+      "id": "cn-member-of-network-societe-sante-et-mieux-etre-en-francais-du-nouveau-brunswick-rifnb",
+      "from": "el-societe-sante-et-mieux-etre-en-francais-du-nouveau-brunswick",
       "to": "el-rifnb",
       "direction": "directed",
       "type": "member_of_network",
@@ -14497,7 +14508,7 @@
       "Stage in the Francophone Integration Pathway at which services are provided": "Integration",
       "Strength": "1",
       "Web site of org": "https://ssmefnb.ca/",
-      "common name of org": "SSMEFNB",
+      "common name of org": "Société Santé et Mieux-être en français du Nouveau-Brunswick",
       "membre du rifnb": "x"
     },
     {
@@ -14509,17 +14520,6 @@
       "Official name of org / entity": "Saint Mary's Academy",
       "Strength": "1",
       "common name of org": "St Mary's Academy",
-      "membre du rifnb": "x"
-    },
-    {
-      "id": "cn-member-of-network-sunnymel-rifnb",
-      "from": "el-sunnymel",
-      "to": "el-rifnb",
-      "direction": "directed",
-      "type": "member_of_network",
-      "Official name of org / entity": "Accueil -",
-      "Strength": "1",
-      "common name of org": "Sunnymel",
       "membre du rifnb": "x"
     },
     {
