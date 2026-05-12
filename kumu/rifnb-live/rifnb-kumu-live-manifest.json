@@ -1,16 +1,35 @@
 {
-  "generated_at": "2026-04-30T12:19:22.811Z",
-  "mode": "kumu_experiment_variant",
-  "experiment_id": "EXP-018",
-  "title": "Settlement Navigation no logo clean profile",
-  "source_variant": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\experiments\\variants\\EXP-018-settlement-navigation-no-logo-clean-profile.json",
+  "generated_at": "2026-05-12T11:11:41.995Z",
+  "config_path": "C:\\Users\\User\\Projects\\RIFNB\\config\\kumu-live.config.json",
+  "overrides_path": "C:\\Users\\User\\Projects\\RIFNB\\config\\kumu-live-overrides.json",
+  "refresh_workbook": true,
   "public_url": "https://raw.githubusercontent.com/Mathieu-DesRoches/t3Nexus/rifnb-kumu-live/kumu/rifnb-live/rifnb-kumu-live-blueprint.json",
+  "source_workbook": "C:\\Users\\User\\GroupeDesRoches\\Groupe DesRoches documents - Documents\\DDesRoches - sharepoint\\RIFNB\\Données\\Parties prenantes\\kumu_clean_master_v50.xlsx",
+  "snapshot_workbook": "C:\\Users\\User\\Projects\\RIFNB\\scripts\\tmp\\kumu_clean_master_v50_snapshot.xlsx",
+  "live_import_workbook": "C:\\Users\\User\\Projects\\RIFNB\\scripts\\outputs\\kumu_live_import_preview.xlsx",
+  "live_import_report": "C:\\Users\\User\\Projects\\RIFNB\\scripts\\outputs\\kumu_live_import_report.md",
+  "publish_dir": "C:\\Users\\User\\OneDrive - GroupeDesRoches\\Project Assets\\10 Work\\RIFNB\\assets\\json-dumps",
+  "publish_filename": "rifnb-kumu-live-blueprint.json",
   "counts": {
-    "elements": 33,
-    "connections": 38,
-    "topLevelKeys": [
-      "connections",
-      "elements"
-    ]
-  }
+    "element_count": 442,
+    "connection_count": 480,
+    "element_type_counts": {
+      "Ancrage géographique": 109,
+      "Catégorie de service": 17,
+      "Pilote du système": 116,
+      "Bailleur de fonds": 12,
+      "Fournisseur de services": 188
+    },
+    "connection_type_counts": {
+      "Located in": 246,
+      "Provides": 155,
+      "member_of_network": 79
+    }
+  },
+  "output_blueprint": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\rifnb-kumu-live-blueprint.json",
+  "output_summary": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\rifnb-kumu-live-summary.json",
+  "output_manifest": "C:\\Users\\User\\Projects\\RIFNB\\output\\kumu-live\\rifnb-kumu-live-manifest.json",
+  "published_blueprint": "",
+  "published_manifest": "",
+  "published_snapshot": ""
 }
