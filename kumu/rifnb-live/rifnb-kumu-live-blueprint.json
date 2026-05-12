@@ -6360,11 +6360,11 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "el-force-policiere-d-edmunston",
-      "label": "Force policière d'Edmunston",
+      "id": "el-force-policiere-d-edmundston",
+      "label": "Force policière d'Edmundston",
       "type": "Pilote du système",
       "Official name of org / entity": "Force policière :: Postuler",
-      "common name of org": "Force policière d'Edmunston",
+      "common name of org": "Force policière d'Edmundston",
       "membre du rifnb": "x"
     },
     {
@@ -6951,10 +6951,10 @@
       "common name of org": "Salisbury"
     },
     {
-      "id": "el-secretariat-a-la-jeunesse-edmunston",
-      "label": "Secrétariat à la jeunesse Edmunston",
+      "id": "el-secretariat-a-la-jeunesse-edmundston",
+      "label": "Secrétariat à la jeunesse Edmundston",
       "type": "Pilote du système",
-      "common name of org": "Secrétariat à la jeunesse Edmunston",
+      "common name of org": "Secrétariat à la jeunesse Edmundston",
       "membre du rifnb": "x"
     },
     {
@@ -14320,14 +14320,14 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-member-of-network-force-policiere-d-edmunston-rifnb",
-      "from": "el-force-policiere-d-edmunston",
+      "id": "cn-member-of-network-force-policiere-d-edmundston-rifnb",
+      "from": "el-force-policiere-d-edmundston",
       "to": "el-rifnb",
       "direction": "directed",
       "type": "member_of_network",
       "Official name of org / entity": "Force policière :: Postuler",
       "Strength": "1",
-      "common name of org": "Force policière d'Edmunston",
+      "common name of org": "Force policière d'Edmundston",
       "membre du rifnb": "x"
     },
     {
@@ -14714,13 +14714,13 @@
       "membre du rifnb": "x"
     },
     {
-      "id": "cn-member-of-network-secretariat-a-la-jeunesse-edmunston-rifnb",
-      "from": "el-secretariat-a-la-jeunesse-edmunston",
+      "id": "cn-member-of-network-secretariat-a-la-jeunesse-edmundston-rifnb",
+      "from": "el-secretariat-a-la-jeunesse-edmundston",
       "to": "el-rifnb",
       "direction": "directed",
       "type": "member_of_network",
       "Strength": "1",
-      "common name of org": "Secrétariat à la jeunesse Edmunston",
+      "common name of org": "Secrétariat à la jeunesse Edmundston",
       "membre du rifnb": "x"
     },
     {
