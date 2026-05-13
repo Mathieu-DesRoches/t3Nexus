@@ -1669,6 +1669,17 @@
       "common name of org": "Economic Development / Business Support"
     },
     {
+      "id": "el-ecosystem-supports",
+      "label": "Ecosystem Supports",
+      "type": "Catégorie de service",
+      "tags": [
+        "service_category"
+      ],
+      "description": "Nœud de catégorie de service généré à partir de org_service_provision.",
+      "Official name of org / entity": "Ecosystem Supports",
+      "common name of org": "Ecosystem Supports"
+    },
+    {
       "id": "el-education-apprentissage",
       "label": "Éducation / apprentissage",
       "type": "Catégorie de service",
@@ -5126,6 +5137,7 @@
       "label": "YMCA Greater Moncton",
       "type": "Fournisseur de services",
       "tags": [
+        "ecosystem_support",
         "program",
         "outreach",
         "housing_instability",
@@ -5133,10 +5145,11 @@
       ],
       "description": "Housing-focused outreach program supporting individuals experiencing homelessness or housing instability in Moncton.",
       "image": "https://moncton.ymca.ca/wp-content/uploads/2024/03/horizontal-Shine-On_Horiz_redY_blackSO_CMYK_Greater-Moncton.jpg",
+      "Delivery Mode": "In-person; Referral; Community-based",
       "If partial regions / zones, specify the towns or cities serviced": "Grand Moncton",
       "Location": "Moncton, New Brunswick, Canada",
       "Region / scope of offered services": "Grand Moncton",
-      "Services offered to individuals": "Housing-focused outreach for people experiencing homelessness or housing instability, including drop-ins, essentials, referrals, and help accessing housing and supports",
+      "Services offered to individuals": "Ecosystem Supports",
       "Stage in the Francophone Integration Pathway at which services are provided": "Accueil / orientation; Établissement; Intégration",
       "Web site of org": "https://moncton.ymca.ca/community-initiatives/outreach/",
       "common name of org": "YMCA Greater Moncton"
@@ -10992,10 +11005,11 @@
       "type": "Located in",
       "description": "Scope: Grand Moncton | Location: Moncton, New Brunswick, Canada",
       "image": "https://moncton.ymca.ca/wp-content/uploads/2024/03/horizontal-Shine-On_Horiz_redY_blackSO_CMYK_Greater-Moncton.jpg",
+      "Delivery Mode": "In-person; Referral; Community-based",
       "If partial regions / zones, specify the towns or cities serviced": "Grand Moncton",
       "Location": "Moncton, New Brunswick, Canada",
       "Region / scope of offered services": "Grand Moncton",
-      "Services offered to individuals": "Housing-focused outreach for people experiencing homelessness or housing instability, including drop-ins, essentials, referrals, and help accessing housing and supports",
+      "Services offered to individuals": "Ecosystem Supports",
       "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
       "Web site of org": "https://moncton.ymca.ca/community-initiatives/outreach/",
       "common name of org": "YMCA Greater Moncton"
@@ -13647,6 +13661,23 @@
       "Web site of org": "https://sanb.ca/",
       "common name of org": "Société de l’Acadie du Nouveau-Brunswick",
       "membre du rifnb": "x"
+    },
+    {
+      "id": "cn-provides-ymca-greater-moncton-ecosystem-supports",
+      "from": "el-ymca-greater-moncton",
+      "to": "el-ecosystem-supports",
+      "direction": "directed",
+      "type": "Provides",
+      "description": "Audience: People needing housing/support navigation, including newcomers where relevant, but not limited to newcomer-only settlement clients | Delivery: In-person; Referral; Community-based",
+      "image": "https://moncton.ymca.ca/wp-content/uploads/2024/03/horizontal-Shine-On_Horiz_redY_blackSO_CMYK_Greater-Moncton.jpg",
+      "Delivery Mode": "In-person; Referral; Community-based",
+      "If partial regions / zones, specify the towns or cities serviced": "Grand Moncton",
+      "Location": "Moncton, New Brunswick, Canada",
+      "Region / scope of offered services": "Grand Moncton",
+      "Services offered to individuals": "Ecosystem Supports",
+      "Stage in the Francophone Integration Pathway at which services are provided": "Welcome Orientation; Settlement; Integration",
+      "Web site of org": "https://moncton.ymca.ca/community-initiatives/outreach/",
+      "common name of org": "YMCA Greater Moncton"
     },
     {
       "id": "cn-member-of-network-acces-emploi-rifnb",

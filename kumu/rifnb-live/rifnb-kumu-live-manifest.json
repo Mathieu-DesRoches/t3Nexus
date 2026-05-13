@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-05-12T11:51:02.133Z",
+  "generated_at": "2026-05-13T16:22:48.992Z",
   "config_path": "C:\\Users\\User\\Projects\\RIFNB\\config\\kumu-live.config.json",
   "overrides_path": "C:\\Users\\User\\Projects\\RIFNB\\config\\kumu-live-overrides.json",
   "refresh_workbook": true,
@@ -11,18 +11,18 @@
   "publish_dir": "C:\\Users\\User\\OneDrive - GroupeDesRoches\\Project Assets\\10 Work\\RIFNB\\assets\\json-dumps",
   "publish_filename": "rifnb-kumu-live-blueprint.json",
   "counts": {
-    "element_count": 442,
-    "connection_count": 480,
+    "element_count": 443,
+    "connection_count": 481,
     "element_type_counts": {
       "Ancrage géographique": 109,
-      "Catégorie de service": 17,
+      "Catégorie de service": 18,
       "Pilote du système": 116,
       "Bailleur de fonds": 12,
       "Fournisseur de services": 188
     },
     "connection_type_counts": {
       "Located in": 246,
-      "Provides": 155,
+      "Provides": 156,
       "member_of_network": 79
     }
   },
