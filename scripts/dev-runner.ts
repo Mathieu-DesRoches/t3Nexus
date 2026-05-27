@@ -497,7 +497,7 @@ const devRunnerCli = Command.make("dev-runner", {
   ),
   t3Home: Flag.string("home-dir").pipe(
     Flag.withDescription(
-      "Base directory for all T3 Nexus data (equivalent to T3NEXUS_HOME; T3CODE_HOME remains supported).",
+      "Base directory for all T3Nexus data (equivalent to T3NEXUS_HOME; T3CODE_HOME remains supported).",
     ),
     Flag.withFallbackConfig(optionalStringConfig("T3NEXUS_HOME")),
   ),

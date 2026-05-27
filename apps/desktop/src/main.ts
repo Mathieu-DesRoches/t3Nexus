@@ -1049,12 +1049,11 @@ function resolveIconPath(ext: "ico" | "icns" | "png"): string | null {
  * Resolve the Electron userData directory path.
  *
  * Electron derives the default userData path from `productName` in
- * package.json, which can produce directories with spaces (for example
- * `~/.config/T3 Nexus` on Linux). This is unfriendly for shell usage and
- * violates Linux naming conventions.
+ * package.json, which can produce display-oriented directory names. This is
+ * unfriendly for shell usage and violates Linux naming conventions.
  *
  * We override it to a clean lowercase name (`t3nexus`) and intentionally
- * keep this fork isolated from the upstream T3 Code desktop profile.
+ * keep this fork isolated from the upstream desktop profile.
  */
 function resolveUserDataPath(): string {
   const appDataBase =

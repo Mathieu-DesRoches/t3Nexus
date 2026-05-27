@@ -20,9 +20,9 @@ describe("branding", () => {
       value: {
         desktopBridge: {
           getAppBranding: () => ({
-            baseName: "T3 Nexus",
+            baseName: "T3Nexus",
             stageLabel: "Nightly",
-            displayName: "T3 Nexus (Nightly)",
+            displayName: "T3Nexus (Nightly)",
           }),
         },
       },
@@ -30,9 +30,9 @@ describe("branding", () => {
 
     const branding = await import("./branding");
 
-    expect(branding.APP_BASE_NAME).toBe("T3 Nexus");
+    expect(branding.APP_BASE_NAME).toBe("T3Nexus");
     expect(branding.APP_STAGE_LABEL).toBe("Nightly");
-    expect(branding.APP_DISPLAY_NAME).toBe("T3 Nexus (Nightly)");
+    expect(branding.APP_DISPLAY_NAME).toBe("T3Nexus (Nightly)");
   });
 
   it("uses Nexus fallback branding in dev mode", async () => {
@@ -43,8 +43,8 @@ describe("branding", () => {
 
     const branding = await import("./branding");
 
-    expect(branding.APP_BASE_NAME).toBe("T3 Nexus");
+    expect(branding.APP_BASE_NAME).toBe("T3Nexus");
     expect(branding.APP_STAGE_LABEL).toBe("Dev");
-    expect(branding.APP_DISPLAY_NAME).toBe("T3 Nexus (Dev)");
+    expect(branding.APP_DISPLAY_NAME).toBe("T3Nexus (Dev)");
   });
 });

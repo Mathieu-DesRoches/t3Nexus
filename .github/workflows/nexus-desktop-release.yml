@@ -89,9 +89,9 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.tag }}
           target_commitish: ${{ github.sha }}
-          name: T3 Nexus Desktop ${{ steps.version.outputs.version }}
+          name: T3Nexus Desktop ${{ steps.version.outputs.version }}
           body: |
-            Windows desktop installer for T3 Nexus.
+            Windows desktop installer for T3Nexus.
 
             Built from `${{ github.sha }}` on `${{ github.ref_name }}`.
           prerelease: false

@@ -1,4 +1,4 @@
-// This file mostly exists because we want dev mode to say "T3 Nexus (Dev)" instead of "electron"
+// This file mostly exists because we want dev mode to say "T3Nexus (Dev)" instead of "electron"
 
 import { spawnSync } from "node:child_process";
 import {
@@ -18,7 +18,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const isDevelopment = Boolean(process.env.VITE_DEV_SERVER_URL);
-const APP_DISPLAY_NAME = isDevelopment ? "T3 Nexus (Dev)" : "T3 Nexus";
+const APP_DISPLAY_NAME = isDevelopment ? "T3Nexus (Dev)" : "T3Nexus";
 const APP_BUNDLE_ID = isDevelopment ? "com.t3tools.t3nexus.dev" : "com.t3tools.t3nexus";
 const LAUNCHER_VERSION = 2;
 

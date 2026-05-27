@@ -39,9 +39,9 @@ describe("resolveDesktopAppBranding", () => {
         appVersion: "0.0.17-nightly.20260414.1",
       }),
     ).toEqual({
-      baseName: "T3 Nexus",
+      baseName: "T3Nexus",
       stageLabel: "Nightly",
-      displayName: "T3 Nexus (Nightly)",
+      displayName: "T3Nexus (Nightly)",
     });
   });
 
@@ -52,9 +52,9 @@ describe("resolveDesktopAppBranding", () => {
         appVersion: "0.0.17",
       }),
     ).toEqual({
-      baseName: "T3 Nexus",
+      baseName: "T3Nexus",
       stageLabel: "Alpha",
-      displayName: "T3 Nexus",
+      displayName: "T3Nexus",
     });
   });
 });

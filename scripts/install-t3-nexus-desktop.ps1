@@ -99,10 +99,10 @@ if ($null -eq $installer) {
 }
 
 if ($null -eq $installer) {
-  throw "Build finished, but no T3 Nexus installer was found in $releaseDir."
+  throw "Build finished, but no T3Nexus installer was found in $releaseDir."
 }
 
-Write-Output "Built T3 Nexus installer: $($installer.FullName)"
+Write-Output "Built T3Nexus installer: $($installer.FullName)"
 
 if ($NoInstall) {
   return
@@ -115,7 +115,7 @@ if ($Silent) {
 
 $process = Start-Process -FilePath $installer.FullName -ArgumentList $installArgs -Wait -PassThru
 if ($process.ExitCode -ne 0) {
-  throw "T3 Nexus installer exited with code $($process.ExitCode)."
+  throw "T3Nexus installer exited with code $($process.ExitCode)."
 }
 
-Write-Output "Installed T3 Nexus from: $($installer.FullName)"
+Write-Output "Installed T3Nexus from: $($installer.FullName)"

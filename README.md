@@ -1,11 +1,11 @@
-# T3 Nexus
+# T3Nexus
 
-T3 Nexus is Mat's maintained fork of T3 Code, a minimal web GUI for coding agents.
+T3Nexus is Mat's maintained fork: a minimal web GUI for coding agents.
 
 ## Installation
 
 > [!WARNING]
-> T3 Code currently supports Codex and Claude.
+> T3Nexus currently supports Codex and Claude.
 > Install and authenticate at least one provider before use:
 >
 > - Codex: install [Codex CLI](https://github.com/openai/codex) and run `codex login`
@@ -19,7 +19,7 @@ npx t3
 
 ### Desktop app
 
-For local Windows builds, use the repo install script. It creates a unique local SemVer prerelease build and runs the generated NSIS installer so Windows launchers can find `T3 Nexus`.
+For local Windows builds, use the repo install script. It creates a unique local SemVer prerelease build and runs the generated NSIS installer so Windows launchers can find `T3Nexus`.
 
 ```powershell
 bun run install:desktop:win
@@ -40,12 +40,12 @@ To build the installer without running it:
 bun run dist:desktop:win:local
 ```
 
-Upstream T3 Code desktop packages are still available from [GitHub Releases](https://github.com/pingdotgg/t3code/releases), or from package registries:
+Upstream desktop packages are still available from [GitHub Releases](https://github.com/pingdotgg/t3code/releases), or from package registries:
 
 #### Windows (`winget`)
 
 ```bash
-winget install T3Tools.T3Code
+winget install T3Tools.T3Nexus
 ```
 
 #### macOS (Homebrew)

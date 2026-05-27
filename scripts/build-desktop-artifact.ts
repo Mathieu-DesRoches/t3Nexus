@@ -215,7 +215,7 @@ const resolveBooleanFlag = (flag: Option.Option<boolean>, envValue: boolean) =>
 const mergeOptions = <A>(a: Option.Option<A>, b: Option.Option<A>, defaultValue: A) =>
   Option.getOrElse(a, () => Option.getOrElse(b, () => defaultValue));
 const DESKTOP_STAGE_PACKAGE_NAME = "t3nexus";
-const DESKTOP_STAGE_DESCRIPTION = "T3 Nexus desktop build";
+const DESKTOP_STAGE_DESCRIPTION = "T3Nexus desktop build";
 const DESKTOP_BUILD_APP_ID = "com.t3tools.t3nexus";
 const DESKTOP_ARTIFACT_NAME = "T3-Nexus-${version}-${arch}.${ext}";
 const DESKTOP_LINUX_EXECUTABLE_NAME = "t3nexus";
@@ -512,8 +512,8 @@ export function resolveMockUpdateServerUrl(mockUpdateServerPort: number | undefi
 
 export function resolveDesktopProductName(version: string): string {
   return resolveDesktopUpdateChannel(version) === "nightly"
-    ? "T3 Nexus (Nightly)"
-    : (desktopPackageJson.productName ?? "T3 Nexus");
+    ? "T3Nexus (Nightly)"
+    : (desktopPackageJson.productName ?? "T3Nexus");
 }
 
 const createBuildConfig = Effect.fn("createBuildConfig")(function* (
@@ -901,7 +901,7 @@ const buildDesktopArtifactCli = Command.make("build-desktop-artifact", {
     Flag.optional,
   ),
 }).pipe(
-  Command.withDescription("Build a desktop artifact for T3 Nexus."),
+  Command.withDescription("Build a desktop artifact for T3Nexus."),
   Command.withHandler((input) => Effect.flatMap(resolveBuildOptions(input), buildDesktopArtifact)),
 );
 
