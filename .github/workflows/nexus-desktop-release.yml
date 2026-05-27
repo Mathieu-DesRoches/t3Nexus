@@ -1,0 +1,103 @@
+name: Nexus Desktop Release
+
+on:
+  push:
+    branches:
+      - clean-main
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Optional SemVer version, for example 0.1.42"
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: nexus-desktop-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  windows:
+    name: Build Windows Installer
+    runs-on: windows-2022
+    timeout-minutes: 35
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      tag: ${{ steps.version.outputs.tag }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version-file: package.json
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: package.json
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - id: version
+        name: Resolve desktop version
+        shell: pwsh
+        env:
+          DISPATCH_VERSION: ${{ github.event.inputs.version }}
+        run: |
+          $rawVersion = $env:DISPATCH_VERSION
+          if ([string]::IsNullOrWhiteSpace($rawVersion)) {
+            $patch = ([int] $env:GITHUB_RUN_NUMBER * 10) + [int] $env:GITHUB_RUN_ATTEMPT
+            $version = "0.1.$patch"
+          } else {
+            $version = $rawVersion.Trim()
+            if ($version.StartsWith("v", [System.StringComparison]::OrdinalIgnoreCase)) {
+              $version = $version.Substring(1)
+            }
+          }
+
+          if ($version -notmatch '^[0-9]+\.[0-9]+\.[0-9]+$') {
+            throw "Nexus desktop release versions must be plain SemVer X.Y.Z. Received: $version"
+          }
+
+          "version=$version" >> $env:GITHUB_OUTPUT
+          "tag=nexus-desktop-v$version" >> $env:GITHUB_OUTPUT
+
+      - name: Build Windows desktop installer
+        env:
+          T3NEXUS_DESKTOP_UPDATE_REPOSITORY: ${{ github.repository }}
+        run: bun run dist:desktop:win -- --build-version "${{ steps.version.outputs.version }}" --verbose
+
+      - name: Upload workflow artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: t3-nexus-windows-installer-${{ steps.version.outputs.version }}
+          path: |
+            release/*.exe
+            release/*.blockmap
+            release/*.yml
+          if-no-files-found: error
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          target_commitish: ${{ github.sha }}
+          name: T3 Nexus Desktop ${{ steps.version.outputs.version }}
+          body: |
+            Windows desktop installer for T3 Nexus.
+
+            Built from `${{ github.sha }}` on `${{ github.ref_name }}`.
+          prerelease: false
+          make_latest: true
+          files: |
+            release/*.exe
+            release/*.blockmap
+            release/*.yml
+          fail_on_unmatched_files: true

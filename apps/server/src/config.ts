@@ -12,9 +12,36 @@ export const DEFAULT_PORT = 3773;
 
 export const RuntimeMode = Schema.Literals(["web", "desktop"]);
 export type RuntimeMode = typeof RuntimeMode.Type;
+export const StateProfile = Schema.Literals(["dev", "userdata"]);
+export type StateProfile = typeof StateProfile.Type;
 
 export const StartupPresentation = Schema.Literals(["browser", "headless"]);
 export type StartupPresentation = typeof StartupPresentation.Type;
+
+export const SERVER_STATE_PROFILE_DIRECTORY_ENTRIES = ["attachments", "logs", "secrets"] as const;
+export const SERVER_STATE_PROFILE_FILE_ENTRIES = [
+  "state.sqlite",
+  "keybindings.json",
+  "settings.json",
+  "anonymous-id",
+  "environment-id",
+  "server-runtime.json",
+] as const;
+export const SERVER_STATE_PROFILE_ENTRIES = [
+  ...SERVER_STATE_PROFILE_DIRECTORY_ENTRIES,
+  ...SERVER_STATE_PROFILE_FILE_ENTRIES,
+] as const;
+export type ServerStateProfileEntry = (typeof SERVER_STATE_PROFILE_ENTRIES)[number];
+
+function resolveStateDirName(
+  devUrl: URL | undefined,
+  stateProfile: StateProfile | undefined,
+): StateProfile {
+  if (stateProfile !== undefined) {
+    return stateProfile;
+  }
+  return devUrl !== undefined ? "dev" : "userdata";
+}
 
 /**
  * ServerDerivedPaths - Derived paths from the base directory.
@@ -70,9 +97,10 @@ export interface ServerConfigShape extends ServerDerivedPaths {
 export const deriveServerPaths = Effect.fn(function* (
   baseDir: ServerConfigShape["baseDir"],
   devUrl: ServerConfigShape["devUrl"],
+  stateProfile?: StateProfile,
 ): Effect.fn.Return<ServerDerivedPaths, never, Path.Path> {
   const { join } = yield* Path.Path;
-  const stateDir = join(baseDir, devUrl !== undefined ? "dev" : "userdata");
+  const stateDir = join(baseDir, resolveStateDirName(devUrl, stateProfile));
   const dbPath = join(stateDir, "state.sqlite");
   const attachmentsDir = join(stateDir, "attachments");
   const logsDir = join(stateDir, "logs");

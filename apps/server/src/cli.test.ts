@@ -1,4 +1,5 @@
 import * as NodeHttp from "node:http";
+import { mkdirSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -352,5 +353,50 @@ it.layer(NodeServices.layer)("cli log-level parsing", (it) => {
       }
       assert.equal(optionError.option, "--dev-url");
     }),
+  );
+
+  it.effect(
+    "imports server-managed state between profiles without clobbering desktop-only userdata files",
+    () =>
+      Effect.gen(function* () {
+        const baseDir = mkdtempSync(join(tmpdir(), "t3-cli-state-import-test-"));
+        const sourcePaths = yield* deriveServerPaths(baseDir, undefined, "dev");
+        const targetPaths = yield* deriveServerPaths(baseDir, undefined, "userdata");
+
+        mkdirSync(sourcePaths.attachmentsDir, { recursive: true });
+        writeFileSync(sourcePaths.dbPath, "source-db");
+        writeFileSync(join(sourcePaths.attachmentsDir, "thread-image.txt"), "attachment");
+        writeFileSync(
+          sourcePaths.settingsPath,
+          '{"observability":{"otlpTracesUrl":"http://localhost"}}',
+        );
+
+        mkdirSync(targetPaths.stateDir, { recursive: true });
+        writeFileSync(targetPaths.dbPath, "old-target-db");
+        writeFileSync(join(targetPaths.stateDir, "client-settings.json"), '{"preserve":true}');
+
+        yield* runCliWithRuntime([
+          "state",
+          "import",
+          "--base-dir",
+          baseDir,
+          "--state-profile",
+          "userdata",
+          "--from-profile",
+          "dev",
+          "--replace",
+        ]);
+
+        assert.equal(readFileSync(targetPaths.dbPath, "utf8"), "source-db");
+        assert.equal(
+          readFileSync(join(targetPaths.attachmentsDir, "thread-image.txt"), "utf8"),
+          "attachment",
+        );
+        assert.equal(
+          readFileSync(join(targetPaths.stateDir, "client-settings.json"), "utf8"),
+          '{"preserve":true}',
+        );
+        assert.equal(existsSync(join(targetPaths.stateDir, "desktop-settings.json")), false);
+      }),
   );
 });

@@ -15,9 +15,11 @@ const MAX_HASH_OFFSET = 3000;
 const MAX_PORT = 65535;
 const DESKTOP_DEV_LOOPBACK_HOST = "127.0.0.1";
 const DEV_PORT_PROBE_HOSTS = ["127.0.0.1", "0.0.0.0", "::1", "::"] as const;
+const DEV_STATE_PROFILES = ["dev", "userdata"] as const;
+type DevStateProfile = (typeof DEV_STATE_PROFILES)[number];
 
 export const DEFAULT_T3_HOME = Effect.map(Effect.service(Path.Path), (path) =>
-  path.join(homedir(), ".t3"),
+  path.join(homedir(), ".t3-nexus"),
 );
 
 const MODE_ARGS = {
@@ -69,6 +71,17 @@ const optionalUrlConfig = (name: string): Config.Config<URL | undefined> =>
   Config.url(name).pipe(
     Config.option,
     Config.map((value) => Option.getOrUndefined(value)),
+  );
+const optionalStateProfileConfig = (name: string): Config.Config<DevStateProfile | undefined> =>
+  Config.string(name).pipe(
+    Config.option,
+    Config.map((value) => {
+      const profile = Option.getOrUndefined(value);
+      if (profile === "dev" || profile === "userdata") {
+        return profile;
+      }
+      return undefined;
+    }),
   );
 
 const OffsetConfig = Config.all({
@@ -122,6 +135,7 @@ interface CreateDevRunnerEnvInput {
   readonly serverOffset: number;
   readonly webOffset: number;
   readonly t3Home: string | undefined;
+  readonly stateProfile: DevStateProfile | undefined;
   readonly noBrowser: boolean | undefined;
   readonly autoBootstrapProjectFromCwd: boolean | undefined;
   readonly logWebSocketEvents: boolean | undefined;
@@ -136,6 +150,7 @@ export function createDevRunnerEnv({
   serverOffset,
   webOffset,
   t3Home,
+  stateProfile,
   noBrowser,
   autoBootstrapProjectFromCwd,
   logWebSocketEvents,
@@ -155,8 +170,15 @@ export function createDevRunnerEnv({
       VITE_DEV_SERVER_URL:
         devUrl?.toString() ??
         `http://${isDesktopMode ? DESKTOP_DEV_LOOPBACK_HOST : "localhost"}:${webPort}`,
+      T3NEXUS_HOME: resolvedBaseDir,
       T3CODE_HOME: resolvedBaseDir,
     };
+
+    if (stateProfile !== undefined) {
+      output.T3CODE_STATE_PROFILE = stateProfile;
+    } else {
+      delete output.T3CODE_STATE_PROFILE;
+    }
 
     if (!isDesktopMode) {
       output.T3CODE_PORT = String(serverPort);
@@ -365,6 +387,7 @@ export function resolveModePortOffsets<R = NetService>({
 interface DevRunnerCliInput {
   readonly mode: DevMode;
   readonly t3Home: string | undefined;
+  readonly stateProfile: DevStateProfile | undefined;
   readonly noBrowser: boolean | undefined;
   readonly autoBootstrapProjectFromCwd: boolean | undefined;
   readonly logWebSocketEvents: boolean | undefined;
@@ -408,7 +431,8 @@ export function runDevRunnerWithInput(input: DevRunnerCliInput) {
       baseEnv: process.env,
       serverOffset,
       webOffset,
-      t3Home: input.t3Home,
+      t3Home: input.t3Home ?? process.env.T3NEXUS_HOME ?? process.env.T3CODE_HOME,
+      stateProfile: input.stateProfile,
       noBrowser: input.noBrowser,
       autoBootstrapProjectFromCwd: input.autoBootstrapProjectFromCwd,
       logWebSocketEvents: input.logWebSocketEvents,
@@ -423,7 +447,7 @@ export function runDevRunnerWithInput(input: DevRunnerCliInput) {
         : "";
 
     yield* Effect.logInfo(
-      `[dev-runner] mode=${input.mode} source=${source}${selectionSuffix} serverPort=${String(env.T3CODE_PORT)} webPort=${String(env.PORT)} baseDir=${String(env.T3CODE_HOME)}`,
+      `[dev-runner] mode=${input.mode} source=${source}${selectionSuffix} serverPort=${String(env.T3CODE_PORT)} webPort=${String(env.PORT)} baseDir=${String(env.T3NEXUS_HOME ?? env.T3CODE_HOME)}`,
     );
 
     if (input.dryRun) {
@@ -472,8 +496,16 @@ const devRunnerCli = Command.make("dev-runner", {
     Argument.withDescription("Development mode to run."),
   ),
   t3Home: Flag.string("home-dir").pipe(
-    Flag.withDescription("Base directory for all T3 Code data (equivalent to T3CODE_HOME)."),
-    Flag.withFallbackConfig(optionalStringConfig("T3CODE_HOME")),
+    Flag.withDescription(
+      "Base directory for all T3 Nexus data (equivalent to T3NEXUS_HOME; T3CODE_HOME remains supported).",
+    ),
+    Flag.withFallbackConfig(optionalStringConfig("T3NEXUS_HOME")),
+  ),
+  stateProfile: Flag.choice("state-profile", DEV_STATE_PROFILES).pipe(
+    Flag.withDescription(
+      "State profile directory under T3NEXUS_HOME. Use `userdata` to share packaged-app threads.",
+    ),
+    Flag.withFallbackConfig(optionalStateProfileConfig("T3CODE_STATE_PROFILE")),
   ),
   noBrowser: Flag.boolean("no-browser").pipe(
     Flag.withDescription("Browser auto-open toggle (equivalent to T3CODE_NO_BROWSER)."),

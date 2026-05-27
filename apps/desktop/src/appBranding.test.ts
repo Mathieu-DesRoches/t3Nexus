@@ -39,9 +39,22 @@ describe("resolveDesktopAppBranding", () => {
         appVersion: "0.0.17-nightly.20260414.1",
       }),
     ).toEqual({
-      baseName: "T3 Code",
+      baseName: "T3 Nexus",
       stageLabel: "Nightly",
-      displayName: "T3 Code (Nightly)",
+      displayName: "T3 Nexus (Nightly)",
+    });
+  });
+
+  it("omits the alpha suffix from the stable Nexus display name", () => {
+    expect(
+      resolveDesktopAppBranding({
+        isDevelopment: false,
+        appVersion: "0.0.17",
+      }),
+    ).toEqual({
+      baseName: "T3 Nexus",
+      stageLabel: "Alpha",
+      displayName: "T3 Nexus",
     });
   });
 });

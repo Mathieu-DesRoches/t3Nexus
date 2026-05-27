@@ -36,8 +36,12 @@ import {
   deriveServerPaths,
   ensureServerDirectories,
   resolveStaticDir,
+  SERVER_STATE_PROFILE_DIRECTORY_ENTRIES,
+  SERVER_STATE_PROFILE_ENTRIES,
   ServerConfig,
   RuntimeMode,
+  StateProfile as StateProfileSchema,
+  type StateProfile,
   type ServerConfigShape,
   type StartupPresentation,
 } from "./config";
@@ -72,6 +76,7 @@ const BootstrapEnvelopeSchema = Schema.Struct({
   port: Schema.optional(PortSchema),
   host: Schema.optional(Schema.String),
   t3Home: Schema.optional(Schema.String),
+  stateProfile: Schema.optional(StateProfileSchema),
   devUrl: Schema.optional(Schema.URLFromString),
   noBrowser: Schema.optional(Schema.Boolean),
   desktopBootstrapToken: Schema.optional(Schema.String),
@@ -95,7 +100,15 @@ const hostFlag = Flag.string("host").pipe(
   Flag.optional,
 );
 const baseDirFlag = Flag.string("base-dir").pipe(
-  Flag.withDescription("Base directory path (equivalent to T3CODE_HOME)."),
+  Flag.withDescription(
+    "Base directory path (equivalent to T3NEXUS_HOME; T3CODE_HOME remains supported).",
+  ),
+  Flag.optional,
+);
+const stateProfileFlag = Flag.choice("state-profile", StateProfileSchema.literals).pipe(
+  Flag.withDescription(
+    "State profile directory under the T3 home, for example `dev` or `userdata`.",
+  ),
   Flag.optional,
 );
 const devUrlFlag = Flag.string("dev-url").pipe(
@@ -155,7 +168,22 @@ const EnvServerConfig = Config.all({
   ),
   port: Config.port("T3CODE_PORT").pipe(Config.option, Config.map(Option.getOrUndefined)),
   host: Config.string("T3CODE_HOST").pipe(Config.option, Config.map(Option.getOrUndefined)),
-  t3Home: Config.string("T3CODE_HOME").pipe(Config.option, Config.map(Option.getOrUndefined)),
+  t3Home: Config.all({
+    nexusHome: Config.string("T3NEXUS_HOME").pipe(Config.option, Config.map(Option.getOrUndefined)),
+    codeHome: Config.string("T3CODE_HOME").pipe(Config.option, Config.map(Option.getOrUndefined)),
+  }).pipe(Config.map(({ nexusHome, codeHome }) => nexusHome ?? codeHome)),
+  stateProfile: Config.all({
+    nexusStateProfile: Config.schema(StateProfileSchema, "T3NEXUS_STATE_PROFILE").pipe(
+      Config.option,
+      Config.map(Option.getOrUndefined),
+    ),
+    codeStateProfile: Config.schema(StateProfileSchema, "T3CODE_STATE_PROFILE").pipe(
+      Config.option,
+      Config.map(Option.getOrUndefined),
+    ),
+  }).pipe(
+    Config.map(({ nexusStateProfile, codeStateProfile }) => nexusStateProfile ?? codeStateProfile),
+  ),
   devUrl: Config.url("VITE_DEV_SERVER_URL").pipe(Config.option, Config.map(Option.getOrUndefined)),
   noBrowser: Config.boolean("T3CODE_NO_BROWSER").pipe(
     Config.option,
@@ -180,6 +208,7 @@ interface CliServerFlags {
   readonly port: Option.Option<number>;
   readonly host: Option.Option<string>;
   readonly baseDir: Option.Option<string>;
+  readonly stateProfile: Option.Option<StateProfile>;
   readonly cwd: Option.Option<string>;
   readonly devUrl: Option.Option<URL>;
   readonly noBrowser: Option.Option<boolean>;
@@ -190,6 +219,7 @@ interface CliServerFlags {
 
 interface CliAuthLocationFlags {
   readonly baseDir: Option.Option<string>;
+  readonly stateProfile: Option.Option<StateProfile>;
   readonly devUrl?: Option.Option<URL>;
 }
 
@@ -226,6 +256,7 @@ export const resolveServerConfig = (
       port: flags.port ?? Option.none(),
       host: flags.host ?? Option.none(),
       baseDir: flags.baseDir ?? Option.none(),
+      stateProfile: flags.stateProfile ?? Option.none(),
       cwd: flags.cwd ?? Option.none(),
       devUrl: flags.devUrl ?? Option.none(),
       noBrowser: flags.noBrowser ?? Option.none(),
@@ -282,10 +313,18 @@ export const resolveServerConfig = (
         ),
       ),
     );
+    const stateProfile = Option.getOrElse(
+      resolveOptionPrecedence(
+        normalizedFlags.stateProfile,
+        Option.fromUndefinedOr(env.stateProfile),
+        Option.fromUndefinedOr(bootstrap?.stateProfile),
+      ),
+      () => undefined,
+    );
     const rawCwd = Option.getOrElse(normalizedFlags.cwd, () => process.cwd());
     const cwd = path.resolve(yield* expandHomePath(rawCwd.trim()));
     yield* fs.makeDirectory(cwd, { recursive: true });
-    const derivedPaths = yield* deriveServerPaths(baseDir, devUrl);
+    const derivedPaths = yield* deriveServerPaths(baseDir, devUrl, stateProfile);
     yield* ensureServerDirectories(derivedPaths);
     const persistedObservabilitySettings = yield* loadPersistedObservabilitySettings(
       derivedPaths.settingsPath,
@@ -379,6 +418,7 @@ const resolveCliAuthConfig = (
       port: Option.none(),
       host: Option.none(),
       baseDir: flags.baseDir,
+      stateProfile: flags.stateProfile,
       cwd: Option.none(),
       devUrl: flags.devUrl ?? Option.none(),
       noBrowser: Option.none(),
@@ -388,6 +428,93 @@ const resolveCliAuthConfig = (
     },
     cliLogLevel,
   );
+
+const ServerStateDirectoryEntrySet = new Set<string>(SERVER_STATE_PROFILE_DIRECTORY_ENTRIES);
+
+const resolveStateProfileDir = Effect.fn(function* (input: {
+  readonly baseDir: string;
+  readonly stateProfile: StateProfile;
+}) {
+  const derivedPaths = yield* deriveServerPaths(input.baseDir, undefined, input.stateProfile);
+  return derivedPaths.stateDir;
+});
+
+const resolveDefaultImportSourceProfile = (targetProfile: StateProfile): StateProfile =>
+  targetProfile === "dev" ? "userdata" : "dev";
+
+const copyServerStateProfile = Effect.fn(function* (input: {
+  readonly sourceDir: string;
+  readonly targetDir: string;
+  readonly replace: boolean;
+}) {
+  const fs = yield* FileSystem.FileSystem;
+  const path = yield* Path.Path;
+
+  if (path.resolve(input.sourceDir) === path.resolve(input.targetDir)) {
+    return yield* Effect.fail(new Error("Source and target state directories must be different."));
+  }
+
+  const sourceStateDbPath = path.join(input.sourceDir, "state.sqlite");
+  const sourceStateDbExists = yield* fs
+    .exists(sourceStateDbPath)
+    .pipe(Effect.orElseSucceed(() => false));
+  if (!sourceStateDbExists) {
+    return yield* Effect.fail(
+      new Error(`Source state profile is missing state.sqlite at ${sourceStateDbPath}.`),
+    );
+  }
+
+  const existingTargetEntries = yield* Effect.forEach(
+    SERVER_STATE_PROFILE_ENTRIES,
+    (relativePath) =>
+      fs.exists(path.join(input.targetDir, relativePath)).pipe(
+        Effect.orElseSucceed(() => false),
+        Effect.map((exists) => (exists ? relativePath : null)),
+      ),
+    { concurrency: "unbounded" },
+  ).pipe(Effect.map((entries) => entries.flatMap((entry) => (entry === null ? [] : [entry]))));
+
+  if (existingTargetEntries.length > 0 && !input.replace) {
+    return yield* Effect.fail(
+      new Error(
+        `Target state profile already has server-managed data (${existingTargetEntries.join(", ")}). Re-run with --replace to overwrite those entries.`,
+      ),
+    );
+  }
+
+  yield* fs.makeDirectory(input.targetDir, { recursive: true });
+
+  if (input.replace) {
+    yield* Effect.forEach(
+      SERVER_STATE_PROFILE_ENTRIES,
+      (relativePath) =>
+        fs.remove(path.join(input.targetDir, relativePath), { recursive: true, force: true }),
+      { concurrency: "unbounded", discard: true },
+    );
+  }
+
+  yield* Effect.forEach(
+    SERVER_STATE_PROFILE_ENTRIES,
+    (relativePath) =>
+      Effect.gen(function* () {
+        const sourcePath = path.join(input.sourceDir, relativePath);
+        const sourceExists = yield* fs.exists(sourcePath).pipe(Effect.orElseSucceed(() => false));
+        if (!sourceExists) {
+          return;
+        }
+
+        const targetPath = path.join(input.targetDir, relativePath);
+        if (ServerStateDirectoryEntrySet.has(relativePath)) {
+          yield* fs.copy(sourcePath, targetPath);
+          return;
+        }
+
+        yield* fs.makeDirectory(path.dirname(targetPath), { recursive: true });
+        yield* fs.copyFile(sourcePath, targetPath);
+      }),
+    { concurrency: "unbounded", discard: true },
+  );
+});
 
 const DurationShorthandPattern = /^(?<value>\d+)(?<unit>ms|s|m|h|d|w)$/i;
 
@@ -742,11 +869,13 @@ const runProjectMutation = Effect.fn("runProjectMutation")(function* (
 
 const sharedServerLocationFlags = {
   baseDir: baseDirFlag,
+  stateProfile: stateProfileFlag,
   devUrl: devUrlFlag,
 } as const;
 
 const projectLocationFlags = {
   baseDir: baseDirFlag,
+  stateProfile: stateProfileFlag,
 } as const;
 
 const sharedServerCommandFlags = {
@@ -754,6 +883,7 @@ const sharedServerCommandFlags = {
   port: portFlag,
   host: hostFlag,
   baseDir: baseDirFlag,
+  stateProfile: stateProfileFlag,
   cwd: Argument.string("cwd").pipe(
     Argument.withDescription(
       "Working directory for provider sessions (defaults to the current directory).",
@@ -768,6 +898,22 @@ const sharedServerCommandFlags = {
 } as const;
 
 const authLocationFlags = sharedServerLocationFlags;
+const sourceBaseDirFlag = Flag.string("from-base-dir").pipe(
+  Flag.withDescription("Optional source T3 home when importing server state."),
+  Flag.optional,
+);
+const sourceStateProfileFlag = Flag.choice("from-profile", StateProfileSchema.literals).pipe(
+  Flag.withDescription("Source state profile when importing server state."),
+  Flag.optional,
+);
+const sourceStateDirFlag = Flag.string("from-state-dir").pipe(
+  Flag.withDescription("Explicit source state directory to import from."),
+  Flag.optional,
+);
+const replaceFlag = Flag.boolean("replace").pipe(
+  Flag.withDescription("Replace existing server-managed state in the target profile."),
+  Flag.withDefault(false),
+);
 
 const ttlFlag = Flag.string("ttl").pipe(
   Flag.withSchema(DurationFromString),
@@ -1095,6 +1241,59 @@ const projectCommand = Command.make("project").pipe(
   Command.withSubcommands([projectAddCommand, projectRemoveCommand, projectRenameCommand]),
 );
 
+const stateImportCommand = Command.make("import", {
+  ...sharedServerLocationFlags,
+  sourceBaseDir: sourceBaseDirFlag,
+  sourceStateProfile: sourceStateProfileFlag,
+  sourceStateDir: sourceStateDirFlag,
+  replace: replaceFlag,
+}).pipe(
+  Command.withDescription(
+    "Copy server-managed thread/session state from another T3 state profile or explicit state directory.",
+  ),
+  Command.withHandler((flags) =>
+    Effect.gen(function* () {
+      const logLevel = yield* GlobalFlag.LogLevel;
+      const targetConfig = yield* resolveCliAuthConfig(flags, logLevel);
+      const path = yield* Path.Path;
+
+      const targetDir = targetConfig.stateDir;
+      const targetDirName = path.basename(targetDir);
+      const targetProfile = targetDirName === "dev" ? "dev" : "userdata";
+
+      const explicitSourceDir = Option.getOrUndefined(flags.sourceStateDir);
+      const sourceDir =
+        explicitSourceDir !== undefined
+          ? path.resolve(yield* expandHomePath(explicitSourceDir.trim()))
+          : yield* Effect.gen(function* () {
+              const sourceBaseDir = yield* resolveBaseDir(
+                Option.getOrUndefined(flags.sourceBaseDir) ?? targetConfig.baseDir,
+              );
+              const sourceProfile =
+                Option.getOrUndefined(flags.sourceStateProfile) ??
+                resolveDefaultImportSourceProfile(targetProfile);
+              return yield* resolveStateProfileDir({
+                baseDir: sourceBaseDir,
+                stateProfile: sourceProfile,
+              });
+            });
+
+      yield* copyServerStateProfile({
+        sourceDir,
+        targetDir,
+        replace: flags.replace,
+      });
+
+      yield* Console.log(`Imported server state from ${sourceDir} to ${targetDir}.`);
+    }),
+  ),
+);
+
+const stateCommand = Command.make("state").pipe(
+  Command.withDescription("Manage server-side state profiles."),
+  Command.withSubcommands([stateImportCommand]),
+);
+
 const runServerCommand = (
   flags: CliServerFlags,
   options?: {
@@ -1128,5 +1327,5 @@ const serveCommand = Command.make("serve", { ...sharedServerCommandFlags }).pipe
 export const cli = Command.make("t3", { ...sharedServerCommandFlags }).pipe(
   Command.withDescription("Run the T3 Code server."),
   Command.withHandler((flags) => runServerCommand(flags)),
-  Command.withSubcommands([startCommand, serveCommand, authCommand, projectCommand]),
+  Command.withSubcommands([startCommand, serveCommand, authCommand, projectCommand, stateCommand]),
 );

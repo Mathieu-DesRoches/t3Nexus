@@ -33,13 +33,18 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
     Effect.gen(function* () {
       const { join } = yield* Path.Path;
       const baseDir = join(os.tmpdir(), "t3-cli-config-env-base");
-      const derivedPaths = yield* deriveServerPaths(baseDir, new URL("http://127.0.0.1:5173"));
+      const derivedPaths = yield* deriveServerPaths(
+        baseDir,
+        new URL("http://127.0.0.1:5173"),
+        "userdata",
+      );
       const resolved = yield* resolveServerConfig(
         {
           mode: Option.none(),
           port: Option.none(),
           host: Option.none(),
           baseDir: Option.none(),
+          stateProfile: Option.none(),
           cwd: Option.none(),
           devUrl: Option.none(),
           noBrowser: Option.none(),
@@ -59,6 +64,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
                   T3CODE_PORT: "4001",
                   T3CODE_HOST: "0.0.0.0",
                   T3CODE_HOME: baseDir,
+                  T3CODE_STATE_PROFILE: "userdata",
                   VITE_DEV_SERVER_URL: "http://127.0.0.1:5173",
                   T3CODE_NO_BROWSER: "true",
                   T3CODE_AUTO_BOOTSTRAP_PROJECT_FROM_CWD: "false",
@@ -102,6 +108,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
           port: Option.some(8788),
           host: Option.some("127.0.0.1"),
           baseDir: Option.some(baseDir),
+          stateProfile: Option.none(),
           cwd: Option.none(),
           devUrl: Option.some(new URL("http://127.0.0.1:4173")),
           noBrowser: Option.some(true),
@@ -170,6 +177,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
           port: Option.some(8788),
           host: Option.some("127.0.0.1"),
           baseDir: Option.some(baseDir),
+          stateProfile: Option.none(),
           cwd: Option.none(),
           devUrl: Option.some(new URL("http://127.0.0.1:4173")),
           noBrowser: Option.some(false),
@@ -240,6 +248,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
           port: Option.none(),
           host: Option.none(),
           baseDir: Option.none(),
+          stateProfile: Option.none(),
           cwd: Option.none(),
           devUrl: Option.none(),
           noBrowser: Option.none(),
@@ -299,6 +308,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
           port: Option.some(4888),
           host: Option.none(),
           baseDir: Option.some(baseDir),
+          stateProfile: Option.none(),
           cwd: Option.some(customCwd),
           devUrl: Option.some(new URL("http://127.0.0.1:5173")),
           noBrowser: Option.none(),
@@ -355,6 +365,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
           port: Option.some(8788),
           host: Option.some("127.0.0.1"),
           baseDir: Option.none(),
+          stateProfile: Option.none(),
           cwd: Option.none(),
           devUrl: Option.some(new URL("http://127.0.0.1:4173")),
           noBrowser: Option.none(),
@@ -426,6 +437,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
           port: Option.some(4888),
           host: Option.none(),
           baseDir: Option.some(baseDir),
+          stateProfile: Option.none(),
           cwd: Option.none(),
           devUrl: Option.none(),
           noBrowser: Option.none(),
@@ -479,6 +491,7 @@ it.layer(NodeServices.layer)("cli config resolution", (it) => {
           port: Option.some(3773),
           host: Option.none(),
           baseDir: Option.some(baseDir),
+          stateProfile: Option.none(),
           cwd: Option.none(),
           devUrl: Option.none(),
           noBrowser: Option.none(),

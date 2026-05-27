@@ -30,6 +30,7 @@
     "dev:web": "node scripts/dev-runner.ts dev:web",
     "dev:marketing": "turbo run dev --filter=@t3tools/marketing",
     "dev:desktop": "node scripts/dev-runner.ts dev:desktop",
+    "dev:desktop:userdata": "node scripts/dev-runner.ts dev:desktop --state-profile userdata",
     "start": "turbo run start --filter=t3",
     "start:desktop": "turbo run start --filter=@t3tools/desktop",
     "start:marketing": "turbo run preview --filter=@t3tools/marketing",
@@ -50,6 +51,8 @@
     "dist:desktop:dmg:x64": "node scripts/build-desktop-artifact.ts --platform mac --target dmg --arch x64",
     "dist:desktop:linux": "node scripts/build-desktop-artifact.ts --platform linux --target AppImage --arch x64",
     "dist:desktop:win": "node scripts/build-desktop-artifact.ts --platform win --target nsis --arch x64",
+    "dist:desktop:win:local": "powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/install-t3-nexus-desktop.ps1 -NoInstall",
+    "install:desktop:win": "powershell -NoLogo -NoProfile -ExecutionPolicy Bypass -File scripts/install-t3-nexus-desktop.ps1",
     "release:smoke": "node scripts/release-smoke.ts",
     "clean": "rm -rf node_modules apps/*/node_modules packages/*/node_modules apps/*/dist apps/*/dist-electron packages/*/dist .turbo apps/*/.turbo packages/*/.turbo",
     "sync:vscode-icons": "node scripts/sync-vscode-icons.mjs"

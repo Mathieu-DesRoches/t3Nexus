@@ -1,6 +1,6 @@
-# T3 Code
+# T3 Nexus
 
-T3 Code is a minimal web GUI for coding agents (currently Codex and Claude, more coming soon).
+T3 Nexus is Mat's maintained fork of T3 Code, a minimal web GUI for coding agents.
 
 ## Installation
 
@@ -19,7 +19,28 @@ npx t3
 
 ### Desktop app
 
-Install the latest version of the desktop app from [GitHub Releases](https://github.com/pingdotgg/t3code/releases), or from your favorite package registry:
+For local Windows builds, use the repo install script. It creates a unique local SemVer prerelease build and runs the generated NSIS installer so Windows launchers can find `T3 Nexus`.
+
+```powershell
+bun run install:desktop:win
+```
+
+Windows packaging requires Visual Studio C++ Build Tools because Electron Builder rebuilds native desktop dependencies.
+
+The preferred durable Windows update lane is GitHub Actions:
+
+- pushing `clean-main` runs `Nexus Desktop Release`
+- the workflow builds the Windows NSIS installer on `windows-2022`
+- the workflow publishes a versioned GitHub Release such as `nexus-desktop-v0.1.42`
+- the release contains the installer plus Electron updater metadata
+
+To build the installer without running it:
+
+```powershell
+bun run dist:desktop:win:local
+```
+
+Upstream T3 Code desktop packages are still available from [GitHub Releases](https://github.com/pingdotgg/t3code/releases), or from package registries:
 
 #### Windows (`winget`)
 

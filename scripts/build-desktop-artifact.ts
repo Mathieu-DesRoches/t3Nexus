@@ -163,7 +163,7 @@ interface StagePackageJson {
   readonly name: string;
   readonly version: string;
   readonly buildVersion: string;
-  readonly t3codeCommitHash: string;
+  readonly t3nexusCommitHash: string;
   readonly private: true;
   readonly description: string;
   readonly author: string;
@@ -214,6 +214,12 @@ const resolveBooleanFlag = (flag: Option.Option<boolean>, envValue: boolean) =>
   Option.getOrElse(flag, () => envValue);
 const mergeOptions = <A>(a: Option.Option<A>, b: Option.Option<A>, defaultValue: A) =>
   Option.getOrElse(a, () => Option.getOrElse(b, () => defaultValue));
+const DESKTOP_STAGE_PACKAGE_NAME = "t3nexus";
+const DESKTOP_STAGE_DESCRIPTION = "T3 Nexus desktop build";
+const DESKTOP_BUILD_APP_ID = "com.t3tools.t3nexus";
+const DESKTOP_ARTIFACT_NAME = "T3-Nexus-${version}-${arch}.${ext}";
+const DESKTOP_LINUX_EXECUTABLE_NAME = "t3nexus";
+const DESKTOP_LINUX_WM_CLASS = "t3nexus";
 
 export const resolveMockUpdateServerPort = Effect.fn("resolveMockUpdateServerPort")(function* (
   mockUpdateServerPort: string | undefined,
@@ -354,7 +360,7 @@ function stageMacIcons(stageResourcesDir: string, sourcePng: string, verbose: bo
     }
 
     const tmpRoot = yield* fs.makeTempDirectoryScoped({
-      prefix: "t3code-icon-build-",
+      prefix: "t3nexus-icon-build-",
     });
 
     const iconPngPath = path.join(stageResourcesDir, "icon.png");
@@ -462,6 +468,7 @@ function resolveGitHubPublishConfig(updateChannel: "latest" | "nightly"):
     }
   | undefined {
   const rawRepo =
+    process.env.T3NEXUS_DESKTOP_UPDATE_REPOSITORY?.trim() ||
     process.env.T3CODE_DESKTOP_UPDATE_REPOSITORY?.trim() ||
     process.env.GITHUB_REPOSITORY?.trim() ||
     "";
@@ -505,8 +512,8 @@ export function resolveMockUpdateServerUrl(mockUpdateServerPort: number | undefi
 
 export function resolveDesktopProductName(version: string): string {
   return resolveDesktopUpdateChannel(version) === "nightly"
-    ? "T3 Code (Nightly)"
-    : (desktopPackageJson.productName ?? "T3 Code");
+    ? "T3 Nexus (Nightly)"
+    : (desktopPackageJson.productName ?? "T3 Nexus");
 }
 
 const createBuildConfig = Effect.fn("createBuildConfig")(function* (
@@ -518,9 +525,9 @@ const createBuildConfig = Effect.fn("createBuildConfig")(function* (
   mockUpdateServerPort: number | undefined,
 ) {
   const buildConfig: Record<string, unknown> = {
-    appId: "com.t3tools.t3code",
+    appId: DESKTOP_BUILD_APP_ID,
     productName: resolveDesktopProductName(version),
-    artifactName: "T3-Code-${version}-${arch}.${ext}",
+    artifactName: DESKTOP_ARTIFACT_NAME,
     directories: {
       buildResources: "apps/desktop/resources",
     },
@@ -549,12 +556,12 @@ const createBuildConfig = Effect.fn("createBuildConfig")(function* (
   if (platform === "linux") {
     buildConfig.linux = {
       target: [target],
-      executableName: "t3code",
+      executableName: DESKTOP_LINUX_EXECUTABLE_NAME,
       icon: "icon.png",
       category: "Development",
       desktop: {
         entry: {
-          StartupWMClass: "t3code",
+          StartupWMClass: DESKTOP_LINUX_WM_CLASS,
         },
       },
     };
@@ -569,6 +576,10 @@ const createBuildConfig = Effect.fn("createBuildConfig")(function* (
       winConfig.azureSignOptions = yield* AzureTrustedSigningOptionsConfig;
     }
     buildConfig.win = winConfig;
+    buildConfig.nsis = {
+      shortcutName: resolveDesktopProductName(version),
+      uninstallDisplayName: resolveDesktopProductName(version),
+    };
   }
 
   return buildConfig;
@@ -663,7 +674,7 @@ const buildDesktopArtifact = Effect.fn("buildDesktopArtifact")(function* (
   const commitHash = resolveGitCommitHash(repoRoot);
   const mkdir = options.keepStage ? fs.makeTempDirectory : fs.makeTempDirectoryScoped;
   const stageRoot = yield* mkdir({
-    prefix: `t3code-desktop-${options.platform}-stage-`,
+    prefix: `t3nexus-desktop-${options.platform}-stage-`,
   });
 
   const stageAppDir = path.join(stageRoot, "app");
@@ -726,12 +737,12 @@ const buildDesktopArtifact = Effect.fn("buildDesktopArtifact")(function* (
   yield* fs.copy(stageResourcesDir, path.join(stageAppDir, "apps/desktop/prod-resources"));
 
   const stagePackageJson: StagePackageJson = {
-    name: "t3code",
+    name: DESKTOP_STAGE_PACKAGE_NAME,
     version: appVersion,
     buildVersion: appVersion,
-    t3codeCommitHash: commitHash,
+    t3nexusCommitHash: commitHash,
     private: true,
-    description: "T3 Code desktop build",
+    description: DESKTOP_STAGE_DESCRIPTION,
     author: "T3 Tools",
     main: "apps/desktop/dist-electron/main.js",
     build: yield* createBuildConfig(
@@ -890,7 +901,7 @@ const buildDesktopArtifactCli = Command.make("build-desktop-artifact", {
     Flag.optional,
   ),
 }).pipe(
-  Command.withDescription("Build a desktop artifact for T3 Code."),
+  Command.withDescription("Build a desktop artifact for T3 Nexus."),
   Command.withHandler((input) => Effect.flatMap(resolveBuildOptions(input), buildDesktopArtifact)),
 );
 
